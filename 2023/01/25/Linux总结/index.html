@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>Linux 学习笔记 [ 洪志鑫技术博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/favicon.ico"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">Linux 学习笔记</h1>
+<article class="post markdown-style">
+  <p>linux下一切皆是文件。 </p>
+<h1 id="目录介绍"><a href="#目录介绍" class="headerlink" title="目录介绍"></a>目录介绍</h1><p> <img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635659778889.png" alt="1635659778889"></p>
+<p>bin：binary 二进制文件，文件都是可以被运行的 </p>
+<p>dev：主要存放外接设备，例如：其他硬盘、U盘、移动硬盘等，在其中的设备不能直接被使用，需要   挂载 </p>
+<p>etc：主要存放一些配置文件 </p>
+<p>home：表示“家”，表示除了root用户以外其他用户的家目录 </p>
+<p>proc：process，表示进程，不可删除 </p>
+<p>root：表示root用户的家目录 </p>
+<p>sbin：superbinary，存放可以被执行的二进制文件，但是必须有此权限的用户才能访问 </p>
+<p>tmp：临时的，放置系统运行时产生的临时文件 </p>
+<p>usr：用户自己安装的软件 </p>
+<p>var：存放程序或者系统日志文件目录。 </p>
+<h1 id="一、指令和选项"><a href="#一、指令和选项" class="headerlink" title="一、指令和选项"></a>一、指令和选项</h1><p>在linux终端（命令行）中输入的内容，就是指令。 </p>
+<p># 指令主体    [选项]     [操作对象] </p>
+<p>一个指令只能包含一个指令主体，多个选项和操作对象。 </p>
+<h1 id="二、基础命令"><a href="#二、基础命令" class="headerlink" title="二、基础命令"></a>二、基础命令</h1><h2 id="1）ls指令–作用：列出指定目录中所有文档名称"><a href="#1）ls指令–作用：列出指定目录中所有文档名称" class="headerlink" title="1）ls指令–作用：列出指定目录中所有文档名称"></a>1）ls指令–作用：列出指定目录中所有文档名称</h2><h3 id="命令格式：ls-选项-路径"><a href="#命令格式：ls-选项-路径" class="headerlink" title="命令格式：ls  [选项]  [路径]"></a>命令格式：ls  [选项]  [路径]</h3><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635659822206.png" alt="1635659822206"></p>
+<p>ps：文件为黑色，目录为蓝色 </p>
+<h3 id="选项："><a href="#选项：" class="headerlink" title="选项："></a>选项：</h3><h6 id="a-作用：显示所有文档（包括隐藏文件：以“-”开头的文件）"><a href="#a-作用：显示所有文档（包括隐藏文件：以“-”开头的文件）" class="headerlink" title="-a       作用：显示所有文档（包括隐藏文件：以“.”开头的文件）"></a>-a       作用：显示所有文档（包括隐藏文件：以“.”开头的文件）</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635659844462.png" alt="1635659844462"></p>
+<h6 id="A-作用：同-a-，但不列出-“-”-（目前目录）-及-“-”-（父目录）"><a href="#A-作用：同-a-，但不列出-“-”-（目前目录）-及-“-”-（父目录）" class="headerlink" title="-A       作用：同 -a ，但不列出 “.” （目前目录） 及 “..” （父目录）"></a>-A       作用：同 -a ，但不列出 “.” （目前目录） 及 “..” （父目录）</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635659868927.png" alt="1635659868927"></p>
+<h6 id="b-作用：把文档中不可输出的字符用反斜杠加字符编号的形式列出"><a href="#b-作用：把文档中不可输出的字符用反斜杠加字符编号的形式列出" class="headerlink" title="-b       作用：把文档中不可输出的字符用反斜杠加字符编号的形式列出"></a>-b       作用：把文档中不可输出的字符用反斜杠加字符编号的形式列出</h6><h6 id="B-作用：不输出以“-”结尾的文档"><a href="#B-作用：不输出以“-”结尾的文档" class="headerlink" title="-B       作用：不输出以“~”结尾的文档"></a>-B       作用：不输出以“~”结尾的文档</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635659884818.png" alt="1635659884818"></p>
+<h6 id="c-作用：按文档状态改变时间（i节点中的ctime）排序并输出目录内容。"><a href="#c-作用：按文档状态改变时间（i节点中的ctime）排序并输出目录内容。" class="headerlink" title="-c       作用：按文档状态改变时间（i节点中的ctime）排序并输出目录内容。"></a>-c       作用：按文档状态改变时间（i节点中的ctime）排序并输出目录内容。</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635659912988.png" alt="1635659912988"></p>
+<h6 id="–color-x3D-when-作用：终端是否使用颜色区分文件类别"><a href="#–color-x3D-when-作用：终端是否使用颜色区分文件类别" class="headerlink" title="–color[&#x3D;when]      作用：终端是否使用颜色区分文件类别"></a>–color[&#x3D;when]      作用：终端是否使用颜色区分文件类别</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635659934995.png" alt="1635659934995"></p>
+<h6 id="d-作用：将目录名像文件一样显示，而不是显示其下的文件"><a href="#d-作用：将目录名像文件一样显示，而不是显示其下的文件" class="headerlink" title="-d       作用：将目录名像文件一样显示，而不是显示其下的文件"></a>-d       作用：将目录名像文件一样显示，而不是显示其下的文件</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635659952716.png" alt="1635659952716"></p>
+<h6 id="D-作用：当同“-l”一起使用时，输出后额外打印一行"><a href="#D-作用：当同“-l”一起使用时，输出后额外打印一行" class="headerlink" title="-D       作用：当同“-l”一起使用时，输出后额外打印一行"></a>-D       作用：当同“-l”一起使用时，输出后额外打印一行</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635659973990.png" alt="1635659973990"></p>
+<h6 id="f-作用：不排序目录内容，将它们在磁盘上存储的顺序列出"><a href="#f-作用：不排序目录内容，将它们在磁盘上存储的顺序列出" class="headerlink" title="-f        作用：不排序目录内容，将它们在磁盘上存储的顺序列出"></a>-f        作用：不排序目录内容，将它们在磁盘上存储的顺序列出</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635659994649.png" alt="1635659994649"></p>
+<h6 id="F-作用：在列出的文档名称后加一符号：可执行档加-“-”-目录加-“-x2F-“，符号链接加“-”，FIFOs加“-”，套接字加“-x3D-”"><a href="#F-作用：在列出的文档名称后加一符号：可执行档加-“-”-目录加-“-x2F-“，符号链接加“-”，FIFOs加“-”，套接字加“-x3D-”" class="headerlink" title="-F       作用：在列出的文档名称后加一符号：可执行档加 “*”, 目录加 “&#x2F;“，符号链接加“@”，FIFOs加“|”，套接字加“&#x3D;”"></a>-F       作用：在列出的文档名称后加一符号：可执行档加 “*”, 目录加 “&#x2F;“，符号链接加“@”，FIFOs加“|”，套接字加“&#x3D;”</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660010233.png" alt="1635660010233"></p>
+<h6 id="g-作用：不显示用户主信息，作用同“-lG”"><a href="#g-作用：不显示用户主信息，作用同“-lG”" class="headerlink" title="-g      作用：不显示用户主信息，作用同“-lG”"></a>-g      作用：不显示用户主信息，作用同“-lG”</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660054226.png" alt="1635660054226"></p>
+<h6 id="i-作用：在每个文档左边打印i节点号（文件序列号-x2F-索引号）"><a href="#i-作用：在每个文档左边打印i节点号（文件序列号-x2F-索引号）" class="headerlink" title="-i       作用：在每个文档左边打印i节点号（文件序列号&#x2F;索引号）"></a>-i       作用：在每个文档左边打印i节点号（文件序列号&#x2F;索引号）</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660190448.png" alt="1635660190448"></p>
+<h6 id="I-文档名-作用：不列出指定的文档名"><a href="#I-文档名-作用：不列出指定的文档名" class="headerlink" title="-I  文档名       作用：不列出指定的文档名"></a>-I  文档名       作用：不列出指定的文档名</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660260207.png" alt="1635660260207"></p>
+<h6 id="l-作用：以详细列表的形式显示所有文件-x2F-文件夹"><a href="#l-作用：以详细列表的形式显示所有文件-x2F-文件夹" class="headerlink" title="-l       作用：以详细列表的形式显示所有文件&#x2F;文件夹"></a>-l       作用：<strong>以详细列表的形式显示所有文件&#x2F;文件夹</strong></h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660245425.png" alt="1635660245425"></p>
+<h6 id="m-作用：水平列出文档信息，每行尽可能多，以逗号进而空格分隔"><a href="#m-作用：水平列出文档信息，每行尽可能多，以逗号进而空格分隔" class="headerlink" title="-m       作用：水平列出文档信息，每行尽可能多，以逗号进而空格分隔"></a>-m       作用：水平列出文档信息，每行尽可能多，以逗号进而空格分隔</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660306672.png" alt="1635660306672"></p>
+<h6 id="n-作用：列出数字化的UID和GID，而不是用户名和组名"><a href="#n-作用：列出数字化的UID和GID，而不是用户名和组名" class="headerlink" title="-n        作用：列出数字化的UID和GID，而不是用户名和组名"></a>-n        作用：列出数字化的UID和GID，而不是用户名和组名</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660323532.png" alt="1635660323532"></p>
+<h6 id="o-作用：不显示用户组信息"><a href="#o-作用：不显示用户组信息" class="headerlink" title="-o       作用：不显示用户组信息"></a>-o       作用：不显示用户组信息</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660338832.png" alt="1635660338832"></p>
+<h6 id="p-作用：在文档名后附上一个字符说明文档类型，类似“-F”，但是不标记可执行文件"><a href="#p-作用：在文档名后附上一个字符说明文档类型，类似“-F”，但是不标记可执行文件" class="headerlink" title="-p       作用：在文档名后附上一个字符说明文档类型，类似“-F”，但是不标记可执行文件"></a>-p       作用：在文档名后附上一个字符说明文档类型，类似“-F”，但是不标记可执行文件</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660360282.png" alt="1635660360282"></p>
+<h6 id="q-作用：用问号代替文档名中非打印的字符"><a href="#q-作用：用问号代替文档名中非打印的字符" class="headerlink" title="-q        作用：用问号代替文档名中非打印的字符"></a>-q        作用：用问号代替文档名中非打印的字符</h6><h6 id="Q-作用：用双引号引用文档名"><a href="#Q-作用：用双引号引用文档名" class="headerlink" title="-Q       作用：用双引号引用文档名"></a>-Q       作用：用双引号引用文档名</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660383867.png" alt="1635660383867"></p>
+<h6 id="r-作用：逆序排列目录内容"><a href="#r-作用：逆序排列目录内容" class="headerlink" title="-r        作用：逆序排列目录内容"></a>-r        作用：逆序排列目录内容</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660402041.png" alt="1635660402041"></p>
+<h6 id="R-作用：递归列出全部目录的内容"><a href="#R-作用：递归列出全部目录的内容" class="headerlink" title="-R      作用：递归列出全部目录的内容"></a>-R      作用：递归列出全部目录的内容</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660420333.png" alt="1635660420333"></p>
+<h6 id="s-作用：在每个文档左侧输出该文档的大小，以字节块为单位（字节块：512字节）"><a href="#s-作用：在每个文档左侧输出该文档的大小，以字节块为单位（字节块：512字节）" class="headerlink" title="-s       作用：在每个文档左侧输出该文档的大小，以字节块为单位（字节块：512字节）"></a>-s       作用：在每个文档左侧输出该文档的大小，以字节块为单位（字节块：512字节）</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660441222.png" alt="1635660441222"></p>
+<h6 id="S-作用：按照文档大小排序目录内容，大文档靠前"><a href="#S-作用：按照文档大小排序目录内容，大文档靠前" class="headerlink" title="-S      作用：按照文档大小排序目录内容，大文档靠前"></a>-S      作用：按照文档大小排序目录内容，大文档靠前</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660466661.png" alt="1635660466661"></p>
+<h6 id="t-作用：按文档最近修改的时间排序"><a href="#t-作用：按文档最近修改的时间排序" class="headerlink" title="-t       作用：按文档最近修改的时间排序"></a>-t       作用：按文档最近修改的时间排序</h6><h6 id="T-作用：设置制表符的宽度，默认为8"><a href="#T-作用：设置制表符的宽度，默认为8" class="headerlink" title="-T       作用：设置制表符的宽度，默认为8"></a>-T       作用：设置制表符的宽度，默认为8</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660509192.png" alt="1635660509192"></p>
+<h6 id="u-作用：用文件最近访问时间取代文件修改时间，访问不一定做修改。"><a href="#u-作用：用文件最近访问时间取代文件修改时间，访问不一定做修改。" class="headerlink" title="-u       作用：用文件最近访问时间取代文件修改时间，访问不一定做修改。"></a>-u       作用：用文件最近访问时间取代文件修改时间，访问不一定做修改。</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660540114.png" alt="1635660540114"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660558128.png" alt="1635660558128"></p>
+<h6 id="w-作用：设置显示屏幕的宽度，默认为80"><a href="#w-作用：设置显示屏幕的宽度，默认为80" class="headerlink" title="-w      作用：设置显示屏幕的宽度，默认为80"></a>-w      作用：设置显示屏幕的宽度，默认为80</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660578730.png" alt="1635660578730"></p>
+<h6 id="X-作用：按文件扩展名的字典序排序"><a href="#X-作用：按文件扩展名的字典序排序" class="headerlink" title="-X       作用：按文件扩展名的字典序排序"></a>-X       作用：按文件扩展名的字典序排序</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660598266.png" alt="1635660598266"></p>
+<h6 id="1-作用：单列输出"><a href="#1-作用：单列输出" class="headerlink" title="-1       作用：单列输出"></a>-1       作用：单列输出</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660887446.png" alt="1635660887446"></p>
+<h6 id="–full-time-作用：列出完整的时间"><a href="#–full-time-作用：列出完整的时间" class="headerlink" title="–full-time        作用：列出完整的时间"></a>–full-time        作用：列出完整的时间</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660902834.png" alt="1635660902834"></p>
+<h2 id="2）pwd指令–作用：打印当前工作目录"><a href="#2）pwd指令–作用：打印当前工作目录" class="headerlink" title="2）pwd指令–作用：打印当前工作目录"></a>2）pwd指令–作用：打印当前工作目录</h2><h3 id="命令格式：-pwd"><a href="#命令格式：-pwd" class="headerlink" title="命令格式：# pwd"></a>命令格式：# pwd</h3><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660916879.png" alt="1635660916879"></p>
+<h2 id="3）cd指令–作用：切换当前的工作目录"><a href="#3）cd指令–作用：切换当前的工作目录" class="headerlink" title="3）cd指令–作用：切换当前的工作目录"></a>3）cd指令–作用：切换当前的工作目录</h2><h3 id="命令格式：-cd-路径"><a href="#命令格式：-cd-路径" class="headerlink" title="命令格式：#cd  路径"></a>命令格式：#cd  路径</h3><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660939725.png" alt="1635660939725"></p>
+<h2 id="4）mkdir指令–作用：创建目录（文件夹）"><a href="#4）mkdir指令–作用：创建目录（文件夹）" class="headerlink" title="4）mkdir指令–作用：创建目录（文件夹）"></a>4）mkdir指令–作用：创建目录（文件夹）</h2><h3 id="命令格式：-mkdir-选项-路径"><a href="#命令格式：-mkdir-选项-路径" class="headerlink" title="命令格式：#mkdir  [选项]  路径"></a>命令格式：#mkdir  [选项]  路径</h3><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660957356.png" alt="1635660957356"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635660965645.png" alt="1635660965645"></p>
+<h3 id="选项：-1"><a href="#选项：-1" class="headerlink" title="选项："></a>选项：</h3><h6 id="p-作用：嵌套创建目录（文件夹）"><a href="#p-作用：嵌套创建目录（文件夹）" class="headerlink" title="-p         作用：嵌套创建目录（文件夹）"></a>-p         作用：嵌套创建目录（文件夹）</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661000412.png" alt="1635661000412"></p>
+<h6 id="m-作用：创建文件时，可以设置文件的访问模式"><a href="#m-作用：创建文件时，可以设置文件的访问模式" class="headerlink" title="-m        作用：创建文件时，可以设置文件的访问模式"></a>-m        作用：创建文件时，可以设置文件的访问模式</h6><p>ps：关于文档访问模式，可见 #chmod </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661018277.png" alt="1635661018277"></p>
+<h2 id="5）touch指令–作用：创建文件，可以一次性创建多个文件"><a href="#5）touch指令–作用：创建文件，可以一次性创建多个文件" class="headerlink" title="5）touch指令–作用：创建文件，可以一次性创建多个文件"></a>5）touch指令–作用：创建文件，可以一次性创建多个文件</h2><h3 id="命令格式：-touch-路径"><a href="#命令格式：-touch-路径" class="headerlink" title="命令格式：#touch  路径"></a>命令格式：#touch  路径</h3><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661034358.png" alt="1635661034358"></p>
+<p>ps：若文件已经存在则会改变文件的访问和修改时间，文件内容不变 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661043519.png" alt="1635661043519"></p>
+<h2 id="6）cp指令–作用：复制文件-x2F-文件夹到指定位置"><a href="#6）cp指令–作用：复制文件-x2F-文件夹到指定位置" class="headerlink" title="6）cp指令–作用：复制文件&#x2F;文件夹到指定位置"></a>6）cp指令–作用：复制文件&#x2F;文件夹到指定位置</h2><h3 id="命令格式：-cp-选项-被复制的文件路径-文件被复制到的路径"><a href="#命令格式：-cp-选项-被复制的文件路径-文件被复制到的路径" class="headerlink" title="命令格式：#cp   [选项]   被复制的文件路径  文件被复制到的路径"></a>命令格式：#cp   [选项]   被复制的文件路径  文件被复制到的路径</h3><p>复制文件&#x2F;文件夹时可以更改文件&#x2F;文件夹名 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661066111.png" alt="1635661066111"></p>
+<h6 id="r-作用：复制文件夹到指定位置，“-r”表示递归命令"><a href="#r-作用：复制文件夹到指定位置，“-r”表示递归命令" class="headerlink" title="-r            作用：复制文件夹到指定位置，“-r”表示递归命令"></a>-r            作用：复制文件夹到指定位置，“-r”表示递归命令</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661075379.png" alt="1635661075379"></p>
+<h6 id="p-作用：拷贝文件内容、修改时间、存取模式、存取控制表，但不拷贝UID-及-GID"><a href="#p-作用：拷贝文件内容、修改时间、存取模式、存取控制表，但不拷贝UID-及-GID" class="headerlink" title="-p      作用：拷贝文件内容、修改时间、存取模式、存取控制表，但不拷贝UID 及 GID"></a>-p      作用：拷贝文件内容、修改时间、存取模式、存取控制表，但不拷贝UID 及 GID</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661085746.png" alt="1635661085746"></p>
+<h2 id="7）mv指令–作用：移动文件-x2F-文件夹到指定路径"><a href="#7）mv指令–作用：移动文件-x2F-文件夹到指定路径" class="headerlink" title="7）mv指令–作用：移动文件&#x2F;文件夹到指定路径"></a>7）mv指令–作用：移动文件&#x2F;文件夹到指定路径</h2><h3 id="命令格式：-mv-需要移动的文档-需要保存的位置路径"><a href="#命令格式：-mv-需要移动的文档-需要保存的位置路径" class="headerlink" title="命令格式：# mv  需要移动的文档  需要保存的位置路径"></a>命令格式：# mv  需要移动的文档  需要保存的位置路径</h3><p>移动文件&#x2F;文件夹时可以更改文件&#x2F;文件夹名 </p>
+<p>移动文件 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661099988.png" alt="1635661099988"></p>
+<p>移动文件夹 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661108058.png" alt="1635661108058"></p>
+<h2 id="8）rm指令–作用：删除文件-x2F-文件夹"><a href="#8）rm指令–作用：删除文件-x2F-文件夹" class="headerlink" title="8）rm指令–作用：删除文件&#x2F;文件夹"></a>8）rm指令–作用：删除文件&#x2F;文件夹</h2><h3 id="命令格式：-rm-选项-需要删除的文档"><a href="#命令格式：-rm-选项-需要删除的文档" class="headerlink" title="命令格式：#rm  [选项]  需要删除的文档"></a>命令格式：#rm  [选项]  需要删除的文档</h3><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661138387.png" alt="1635661138387"></p>
+<h6 id="r-作用：删除文件夹"><a href="#r-作用：删除文件夹" class="headerlink" title="-r     作用：删除文件夹"></a><strong>-r</strong>     <strong>作用：删除文件夹</strong></h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661149973.png" alt="1635661149973"></p>
+<h6 id="f-作用：强制删除文件，不再提示“是否删除xxxx”"><a href="#f-作用：强制删除文件，不再提示“是否删除xxxx”" class="headerlink" title="-f     作用：强制删除文件，不再提示“是否删除xxxx”"></a><strong>-f</strong>     <strong>作用：强制删除文件，不再提示“是否删除xxxx”</strong></h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661159125.png" alt="1635661159125"></p>
+<h6 id="rf-作用：强制删除文件，不再提示“是否删除xxxx”，可同时删除多个文档"><a href="#rf-作用：强制删除文件，不再提示“是否删除xxxx”，可同时删除多个文档" class="headerlink" title="-rf    作用：强制删除文件，不再提示“是否删除xxxx”，可同时删除多个文档"></a><strong>-rf</strong>    <strong>作用：强制删除文件，不再提示“是否删除xxxx”，可同时删除多个文档</strong></h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661167203.png" alt="1635661167203"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661189827.png" alt="1635661189827"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661196861.png" alt="1635661196861"></p>
+<p>ps：“*”    为通配符，表示任意字符，正则表达式中常见 </p>
+<h2 id="9）vim指令–作用：文本编辑器，打开文件"><a href="#9）vim指令–作用：文本编辑器，打开文件" class="headerlink" title="9）vim指令–作用：文本编辑器，打开文件"></a>9）vim指令–作用：文本编辑器，打开文件</h2><h3 id="命令格式：vim-文件"><a href="#命令格式：vim-文件" class="headerlink" title="命令格式：vim   文件"></a>命令格式：vim   文件</h3><p>使用“shift+：” -&gt;  “q” -&gt; “回车” 退出 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661233954.png" alt="1635661233954"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661241094.png" alt="1635661241094"></p>
+<h2 id="10）-gt-和-gt-gt-指令–作用：输出重定向"><a href="#10）-gt-和-gt-gt-指令–作用：输出重定向" class="headerlink" title="10）&gt;和&gt;&gt;指令–作用：输出重定向"></a>10）&gt;和&gt;&gt;指令–作用：输出重定向</h2><h3 id="命令格式：-gt-x2F-gt-gt-文件路径"><a href="#命令格式：-gt-x2F-gt-gt-文件路径" class="headerlink" title="命令格式：#&gt;&#x2F;&gt;&gt;  文件路径"></a>命令格式：#&gt;&#x2F;&gt;&gt;  文件路径</h3><p>一般命令的输出都会显示在终端中，有些时候需要将一些命令的执行结果保存到文件中进行后续的分析&#x2F;统计，则这时候需要使用到输出重定向。 </p>
+<h6 id="gt-作用：覆盖输出，会覆盖到之前的文件内容"><a href="#gt-作用：覆盖输出，会覆盖到之前的文件内容" class="headerlink" title="&gt;           作用：覆盖输出，会覆盖到之前的文件内容"></a><strong>&gt;</strong>           <strong>作用：覆盖输出，会覆盖到之前的文件内容</strong></h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661255047.png" alt="1635661255047"></p>
+<h6 id="gt-gt-作用：追加输出，不会覆盖掉原始文件，会在原始文件末尾继续添加"><a href="#gt-gt-作用：追加输出，不会覆盖掉原始文件，会在原始文件末尾继续添加" class="headerlink" title="&gt;&gt;         作用：追加输出，不会覆盖掉原始文件，会在原始文件末尾继续添加"></a><strong>&gt;&gt;</strong>         <strong>作用：追加输出，不会覆盖掉原始文件，会在原始文件末尾继续添加</strong></h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661265017.png" alt="1635661265017"></p>
+<h2 id="11）cat指令–作用：内容输出在终端，可同时打开多个文件"><a href="#11）cat指令–作用：内容输出在终端，可同时打开多个文件" class="headerlink" title="11）cat指令–作用：内容输出在终端，可同时打开多个文件"></a>11）cat指令–作用：内容输出在终端，可同时打开多个文件</h2><h3 id="命令格式：-cat-文件路径"><a href="#命令格式：-cat-文件路径" class="headerlink" title="命令格式：#cat  文件路径"></a>命令格式：#cat  文件路径</h3><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661275768.png" alt="1635661275768"></p>
+<p>#cat  文件路径1  文件路径2  …  文件路径n  &gt;  合并之后的文件路径        作用：对多个文件进行合并 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661288288.png" alt="1635661288288"></p>
+<h1 id="三、进阶命令"><a href="#三、进阶命令" class="headerlink" title="三、进阶命令"></a>三、进阶命令</h1><h2 id="1）df指令–作用：查看磁盘空间"><a href="#1）df指令–作用：查看磁盘空间" class="headerlink" title="1）df指令–作用：查看磁盘空间"></a>1）df指令–作用：查看磁盘空间</h2><h6 id="df-h-作用：以可读性最高的形式展示"><a href="#df-h-作用：以可读性最高的形式展示" class="headerlink" title="# df  -h        作用：以可读性最高的形式展示"></a># df  -h        作用：以可读性最高的形式展示</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661301540.png" alt="1635661301540"></p>
+<p>filesystem：文件系统对应的设备文件的路径名（一般是硬盘上的分区）； </p>
+<p>1k-blocks：给出分区包含的数据块（1024字节）的数目； </p>
+<p>used、available：分别表示已用的和可用的数据块数目。用户也许会感到奇怪的是，第3，4列块数之和不等于第2列中的块数。这是因为缺省的每个分区都留了少量空间供系统管理员使用。即使遇到普通用户空间已满的情况，管理员仍能登录和留有解决问题所需的工作空间。 </p>
+<p>Use% ：表示普通用户空间使用的百分比，即使这一数字达到100％，分区仍然留有系统管理员使用的空间； </p>
+<p>Mounted on：表示文件系统的挂载点。 </p>
+<h2 id="2）free指令–作用：查看内存空间"><a href="#2）free指令–作用：查看内存空间" class="headerlink" title="2）free指令–作用：查看内存空间"></a>2）free指令–作用：查看内存空间</h2><h6 id="free-m-作用：以Mb为单位查看内存，进行显示"><a href="#free-m-作用：以Mb为单位查看内存，进行显示" class="headerlink" title="#free  -m       作用：以Mb为单位查看内存，进行显示"></a>#free  -m       作用：以Mb为单位查看内存，进行显示</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661318304.png" alt="1635661318304"></p>
+<h2 id="3）head指令–作用：查看文件的前n行，默认前十行"><a href="#3）head指令–作用：查看文件的前n行，默认前十行" class="headerlink" title="3）head指令–作用：查看文件的前n行，默认前十行"></a>3）head指令–作用：查看文件的前n行，默认前十行</h2><h6 id="head-n-文件路径-作用：查看文件的前n行"><a href="#head-n-文件路径-作用：查看文件的前n行" class="headerlink" title="#head  -n  文件路径       作用：查看文件的前n行"></a>#head  -n  文件路径       作用：查看文件的前n行</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661330282.png" alt="1635661330282"></p>
+<h2 id="4）tail指令–作用：查看文件的后n行，默认后十行"><a href="#4）tail指令–作用：查看文件的后n行，默认后十行" class="headerlink" title="4）tail指令–作用：查看文件的后n行，默认后十行"></a>4）tail指令–作用：查看文件的后n行，默认后十行</h2><h6 id="tail-选项-文件路径"><a href="#tail-选项-文件路径" class="headerlink" title="#tail  [选项]  文件路径"></a>#tail  [选项]  文件路径</h6><p><strong>-n</strong>         <strong>作用：查看文件的后n行</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661341186.png" alt="1635661341186"></p>
+<p><strong>-f</strong>          <strong>作用：查看一个文件的动态变化，一般用于查看系统日志</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661355712.png" alt="1635661355712"></p>
+<h2 id="5）less指令–作用：查看文件以较少内容进行输出，按下辅助功能健查看更多"><a href="#5）less指令–作用：查看文件以较少内容进行输出，按下辅助功能健查看更多" class="headerlink" title="5）less指令–作用：查看文件以较少内容进行输出，按下辅助功能健查看更多"></a>5）less指令–作用：查看文件以较少内容进行输出，按下辅助功能健查看更多</h2><h6 id="less-文件路径"><a href="#less-文件路径" class="headerlink" title="#less  文件路径"></a>#less  文件路径</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661370827.png" alt="1635661370827"></p>
+<h2 id="6）wc指令–作用：统计文件内容信息"><a href="#6）wc指令–作用：统计文件内容信息" class="headerlink" title="6）wc指令–作用：统计文件内容信息"></a>6）wc指令–作用：统计文件内容信息</h2><h6 id="wc-选项-文件路径-作用：统计文件内容信息（行数、单词书、字节数）"><a href="#wc-选项-文件路径-作用：统计文件内容信息（行数、单词书、字节数）" class="headerlink" title="#wc  [选项]  文件路径       作用：统计文件内容信息（行数、单词书、字节数）"></a>#wc  [选项]  文件路径       作用：统计文件内容信息（行数、单词书、字节数）</h6><p><strong>-l</strong>       <strong>作用：统计文件行数</strong> </p>
+<p><strong>-w</strong>     <strong>作用：统计文件单词数</strong> </p>
+<p><strong>-c</strong>      <strong>作用：统计文件字节数</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661383233.png" alt="1635661383233"></p>
+<h2 id="7）date指令–作用：操作时间、日期"><a href="#7）date指令–作用：操作时间、日期" class="headerlink" title="7）date指令–作用：操作时间、日期"></a>7）date指令–作用：操作时间、日期</h2><h6 id="用法一：-date-选项-作用：显示当前时间"><a href="#用法一：-date-选项-作用：显示当前时间" class="headerlink" title="用法一：#date  [选项]        作用：显示当前时间"></a>用法一：#date  [选项]        作用：显示当前时间</h6><p><strong>+%F</strong>     <strong>等价于</strong>   <strong>“+%Y-%m-%d”</strong> </p>
+<p><strong>“+%F  %T”</strong>       <strong>等价于</strong>     <strong>“+%Y-%m-%d  %H:%M:%S”</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661396133.png" alt="1635661396133"></p>
+<h6 id="用法二：-date-d-“-1-day”-“-F-T”-作用：获取之前或者之后的某个时间"><a href="#用法二：-date-d-“-1-day”-“-F-T”-作用：获取之前或者之后的某个时间" class="headerlink" title="用法二：#date  -d  [“-1 day”]  “+%F  %T”          作用：获取之前或者之后的某个时间"></a>用法二：#date  -d  [“-1 day”]  “+%F  %T”          作用：获取之前或者之后的某个时间</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661405110.png" alt="1635661405110"></p>
+<h2 id="8）cal指令–作用：操作日历，默认第一天为周日"><a href="#8）cal指令–作用：操作日历，默认第一天为周日" class="headerlink" title="8）cal指令–作用：操作日历，默认第一天为周日"></a>8）cal指令–作用：操作日历，默认第一天为周日</h2><h6 id="cal-选项"><a href="#cal-选项" class="headerlink" title="#cal  [选项]"></a>#cal  [选项]</h6><p><strong>-1</strong>                 <strong>作用：输出当前月的日历</strong> </p>
+<p><strong>-3</strong>                 <strong>作用：输出前、中、后三个日历</strong> </p>
+<p><strong>-y  年份</strong>        <strong>作用：输出某一年的日历</strong> </p>
+<p><strong>-s</strong>                 <strong>作用：#cal，默认为  #cal  -s</strong> </p>
+<p><strong>-m</strong>                <strong>作用：第一天为周一</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661421506.png" alt="1635661421506"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661433448.png" alt="1635661433448"></p>
+<h2 id="9）clear-x2F-ctrl-l指令–作用：消除终端中当前页面已经存在的命令和结果"><a href="#9）clear-x2F-ctrl-l指令–作用：消除终端中当前页面已经存在的命令和结果" class="headerlink" title="9）clear&#x2F;ctrl+l指令–作用：消除终端中当前页面已经存在的命令和结果"></a>9）clear&#x2F;ctrl+l指令–作用：消除终端中当前页面已经存在的命令和结果</h2><h6 id="clear-x2F-ctrl-l-作用：实际上是将当前页面的内容上移"><a href="#clear-x2F-ctrl-l-作用：实际上是将当前页面的内容上移" class="headerlink" title="#clear&#x2F;ctrl+l       作用：实际上是将当前页面的内容上移"></a>#clear&#x2F;ctrl+l       作用：实际上是将当前页面的内容上移</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661463204.png" alt="1635661463204"></p>
+<h2 id="10）-指令–作用：管道符，用于“过滤”、“特殊”、“扩展处理”"><a href="#10）-指令–作用：管道符，用于“过滤”、“特殊”、“扩展处理”" class="headerlink" title="10）|指令–作用：管道符，用于“过滤”、“特殊”、“扩展处理”"></a>10）|指令–作用：管道符，用于“过滤”、“特殊”、“扩展处理”</h2><p>不能单独使用，必须配合指令使用，其作用主要是辅助作用 </p>
+<p>以|为分界线，前面的命令有个输出，后面需要先输入，然后再过滤，最后再输出。通俗的讲就是管道前面的输出就是管道后面的输入。 </p>
+<h6 id="用法一：-ls-路径-grep-y-作用：过滤包含y字母的文档"><a href="#用法一：-ls-路径-grep-y-作用：过滤包含y字母的文档" class="headerlink" title="用法一：#ls  路径  |grep y     作用：过滤包含y字母的文档"></a>用法一：#ls  路径  |grep y     作用：过滤包含y字母的文档</h6><p><strong>grep：主要用于过滤</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661494296.png" alt="1635661494296"></p>
+<h6 id="用法二：-cat-路径-less-作用：实现less的等价效果"><a href="#用法二：-cat-路径-less-作用：实现less的等价效果" class="headerlink" title="用法二：#cat  路径  |less       作用：实现less的等价效果"></a>用法二：#cat  路径  |less       作用：实现less的等价效果</h6><h6 id="用法三：-ls-路径-wc-l-作用：统计某个文档的总个数"><a href="#用法三：-ls-路径-wc-l-作用：统计某个文档的总个数" class="headerlink" title="用法三：#ls  路径  |wc  -l        作用：统计某个文档的总个数"></a>用法三：#ls  路径  |wc  -l        作用：统计某个文档的总个数</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661508862.png" alt="1635661508862"></p>
+<h1 id="四、高级指令"><a href="#四、高级指令" class="headerlink" title="四、高级指令"></a>四、高级指令</h1><h2 id="1）hostname指令–作用：操作主机名（读取、设置）"><a href="#1）hostname指令–作用：操作主机名（读取、设置）" class="headerlink" title="1）hostname指令–作用：操作主机名（读取、设置）"></a>1）hostname指令–作用：操作主机名（读取、设置）</h2><h6 id="用法一：-hostname-作用：查看主机名"><a href="#用法一：-hostname-作用：查看主机名" class="headerlink" title="用法一：#hostname              作用：查看主机名"></a>用法一：#hostname              作用：查看主机名</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661521554.png" alt="1635661521554"></p>
+<h6 id="用法二：-hostname-f-作用：表示输出当前主机名中的FQDN（全限定域名）"><a href="#用法二：-hostname-f-作用：表示输出当前主机名中的FQDN（全限定域名）" class="headerlink" title="用法二：#hostname  -f          作用：表示输出当前主机名中的FQDN（全限定域名）"></a>用法二：#hostname  -f          作用：表示输出当前主机名中的FQDN（全限定域名）</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661528265.png" alt="1635661528265"></p>
+<h2 id="2）id指令–作用：查看一个用户的一些基本信息"><a href="#2）id指令–作用：查看一个用户的一些基本信息" class="headerlink" title="2）id指令–作用：查看一个用户的一些基本信息"></a>2）id指令–作用：查看一个用户的一些基本信息</h2><h6 id="id-用户名-作用：默认查看当前用户的基本信息"><a href="#id-用户名-作用：默认查看当前用户的基本信息" class="headerlink" title="#id  [用户名]        作用：默认查看当前用户的基本信息"></a>#id  [用户名]        作用：默认查看当前用户的基本信息</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661541375.png" alt="1635661541375"></p>
+<p>验证用户信息是否正确：通过文件&#x2F;ect&#x2F;passwd       #cat  &#x2F;etc&#x2F;passwd </p>
+<p>验证用户组信息是否正确：通过文件&#x2F;ect&#x2F;group      #cat  &#x2F;etc&#x2F;group </p>
+<h2 id="3）whoami指令–作用：显示当前登录的用户名"><a href="#3）whoami指令–作用：显示当前登录的用户名" class="headerlink" title="3）whoami指令–作用：显示当前登录的用户名"></a>3）whoami指令–作用：显示当前登录的用户名</h2><h6 id="whoami"><a href="#whoami" class="headerlink" title="#whoami"></a>#whoami</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661566990.png" alt="1635661566990"></p>
+<h2 id="4）ps指令–作用：查看当前服务器的进程信息"><a href="#4）ps指令–作用：查看当前服务器的进程信息" class="headerlink" title="4）ps指令–作用：查看当前服务器的进程信息"></a>4）ps指令–作用：查看当前服务器的进程信息</h2><h6 id="用法一：-ps-选项-作用：查看当前服务器的进程信息"><a href="#用法一：-ps-选项-作用：查看当前服务器的进程信息" class="headerlink" title="用法一：#ps  [选项]          作用：查看当前服务器的进程信息"></a>用法一：#ps  [选项]          作用：查看当前服务器的进程信息</h6><p><strong>-e</strong>       <strong>作用：等价于“-A”，列出全部的进程</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661577694.png" alt="1635661577694"></p>
+<p><strong>-f</strong>        <strong>作用：显示全部的列</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661588904.png" alt="1635661588904"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661598748.png" alt="1635661598748"></p>
+<h6 id="用法二：-ps-ef-grep-进程名-作用：过滤出想要的进程，至少有一个"><a href="#用法二：-ps-ef-grep-进程名-作用：过滤出想要的进程，至少有一个" class="headerlink" title="用法二：#ps  -ef  |grep  进程名          作用：过滤出想要的进程，至少有一个"></a>用法二：#ps  -ef  |grep  进程名          作用：过滤出想要的进程，至少有一个</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661608328.png" alt="1635661608328"></p>
+<h2 id="5）top指令–作用：查看服务器进程占的资源"><a href="#5）top指令–作用：查看服务器进程占的资源" class="headerlink" title="5）top指令–作用：查看服务器进程占的资源"></a>5）top指令–作用：查看服务器进程占的资源</h2><h6 id="top-作用：动态显示服务器进程占的资源（每3s刷新）"><a href="#top-作用：动态显示服务器进程占的资源（每3s刷新）" class="headerlink" title="#top       作用：动态显示服务器进程占的资源（每3s刷新）"></a>#top       作用：动态显示服务器进程占的资源（每3s刷新）</h6><p>退出：按下“q”健 </p>
+<p>按下“M”健：表示将结果按照内存从高到低降序排列 </p>
+<p>按下“P”健：表示将结果按照cpu使用率从高到低降序排序 </p>
+<p>按下“1”：当拥有多个cpu时，展开&#x2F;收起cpu的详细信息 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661639236.png" alt="1635661639236"></p>
+<h2 id="6）du指令–作用：显示目录的真实大小"><a href="#6）du指令–作用：显示目录的真实大小" class="headerlink" title="6）du指令–作用：显示目录的真实大小"></a>6）du指令–作用：显示目录的真实大小</h2><h6 id="du-选项"><a href="#du-选项" class="headerlink" title="#du  [选项]"></a>#du  [选项]</h6><p><strong>-s</strong>       <strong>作用：summaries，只显示汇总的大小</strong> </p>
+<p><strong>-h</strong>       <strong>作用：以较高可读性的形式进行显示</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661653835.png" alt="1635661653835"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661662203.png" alt="1635661662203"></p>
+<h2 id="7）find指令–作用：用于查找文件"><a href="#7）find指令–作用：用于查找文件" class="headerlink" title="7）find指令–作用：用于查找文件"></a>7）find指令–作用：用于查找文件</h2><h6 id="find-路径范围-选项-选项值"><a href="#find-路径范围-选项-选项值" class="headerlink" title="#find  路径范围  [选项]  选项值"></a>#find  路径范围  [选项]  选项值</h6><p>可以搜索隐藏文件 </p>
+<p><strong>-name</strong>         <strong>作用：按照文档名称进行搜索</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661681075.png" alt="1635661681075"></p>
+<p><strong>-type</strong>           <strong>作用：按照文档类型进行搜索：“f”表示文件，“d”表示文件夹</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661694577.png" alt="1635661694577"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661703900.png" alt="1635661703900"></p>
+<h2 id="8）service指令–作用：用于控制软件服务的启动-x2F-停止-x2F-重启"><a href="#8）service指令–作用：用于控制软件服务的启动-x2F-停止-x2F-重启" class="headerlink" title="8）service指令–作用：用于控制软件服务的启动&#x2F;停止&#x2F;重启"></a>8）service指令–作用：用于控制软件服务的启动&#x2F;停止&#x2F;重启</h2><h6 id="service-服务名-start-x2F-stop-x2F-restart"><a href="#service-服务名-start-x2F-stop-x2F-restart" class="headerlink" title="#service  服务名  start&#x2F;stop&#x2F;restart"></a>#service  服务名  start&#x2F;stop&#x2F;restart</h6><p>需要启动本机安装的Apache，服务名叫httpd </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661721371.png" alt="1635661721371"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661731239.png" alt="1635661731239"></p>
+<h2 id="9）kill指令–作用：杀死进程"><a href="#9）kill指令–作用：杀死进程" class="headerlink" title="9）kill指令–作用：杀死进程"></a>9）kill指令–作用：杀死进程</h2><h6 id="用法一：-kill-进程pid-作用：关闭进程，配合ps一起使用"><a href="#用法一：-kill-进程pid-作用：关闭进程，配合ps一起使用" class="headerlink" title="用法一：#kill  进程pid       作用：关闭进程，配合ps一起使用"></a>用法一：#kill  进程pid       作用：关闭进程，配合ps一起使用</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661741021.png" alt="1635661741021"></p>
+<h6 id="用法二：-killall-进程名称-作用：关闭进程"><a href="#用法二：-killall-进程名称-作用：关闭进程" class="headerlink" title="用法二：#killall  进程名称       作用：关闭进程"></a>用法二：#killall  进程名称       作用：关闭进程</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661751831.png" alt="1635661751831"></p>
+<h2 id="10）ifconfig指令–作用：用于操作网卡相关指令"><a href="#10）ifconfig指令–作用：用于操作网卡相关指令" class="headerlink" title="10）ifconfig指令–作用：用于操作网卡相关指令"></a>10）ifconfig指令–作用：用于操作网卡相关指令</h2><h6 id="ifconfig-作用：获取网卡信息"><a href="#ifconfig-作用：获取网卡信息" class="headerlink" title="#ifconfig        作用：获取网卡信息"></a>#ifconfig        作用：获取网卡信息</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661767253.png" alt="1635661767253"></p>
+<h2 id="11）reboot指令–作用：重启"><a href="#11）reboot指令–作用：重启" class="headerlink" title="11）reboot指令–作用：重启"></a>11）reboot指令–作用：重启</h2><h6 id="用法一：-reboot-作用：重启"><a href="#用法一：-reboot-作用：重启" class="headerlink" title="用法一：#reboot       作用：重启"></a>用法一：#reboot       作用：重启</h6><h6 id="用法二：-reboot-w-作用：模拟重启，但是不重启"><a href="#用法二：-reboot-w-作用：模拟重启，但是不重启" class="headerlink" title="用法二：#reboot  -w       作用：模拟重启，但是不重启"></a>用法二：#reboot  -w       作用：模拟重启，但是不重启</h6><h2 id="12）shutdown指令–作用：关机（慎用）"><a href="#12）shutdown指令–作用：关机（慎用）" class="headerlink" title="12）shutdown指令–作用：关机（慎用）"></a>12）shutdown指令–作用：关机（慎用）</h2><h6 id="用法一：-shutdown-h-now-“关机提示”-作用：立即关机"><a href="#用法一：-shutdown-h-now-“关机提示”-作用：立即关机" class="headerlink" title="用法一：#shutdown  -h  now  “关机提示”          作用：立即关机"></a>用法一：#shutdown  -h  now  “关机提示”          作用：立即关机</h6><h6 id="用法二：-shutdown-h-15-25-“关机提示”-作用：定时关机"><a href="#用法二：-shutdown-h-15-25-“关机提示”-作用：定时关机" class="headerlink" title="用法二：#shutdown  -h  15:25  “关机提示”        作用：定时关机"></a>用法二：#shutdown  -h  15:25  “关机提示”        作用：定时关机</h6><p>取消：shutdown  -c（7.x之后的版本）  </p>
+<p>ctrl+c           （7.x之前的版本） </p>
+<p>ps：需要在root账号下，才能使用 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661779861.png" alt="1635661779861"></p>
+<h2 id="13）uptime指令–作用：输出计算机的持续在线时间"><a href="#13）uptime指令–作用：输出计算机的持续在线时间" class="headerlink" title="13）uptime指令–作用：输出计算机的持续在线时间"></a>13）uptime指令–作用：输出计算机的持续在线时间</h2><h6 id="uptime-作用：计算机从开机到现在的在线时间"><a href="#uptime-作用：计算机从开机到现在的在线时间" class="headerlink" title="#uptime          作用：计算机从开机到现在的在线时间"></a>#uptime          作用：计算机从开机到现在的在线时间</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635661790837.png" alt="1635661790837"></p>
+<h2 id="14）uname指令–作用：操作系统的相关信息"><a href="#14）uname指令–作用：操作系统的相关信息" class="headerlink" title="14）uname指令–作用：操作系统的相关信息"></a>14）uname指令–作用：操作系统的相关信息</h2><h6 id="uname-a-作用：获取较为详细的信息（包括类型、全部的主机名、内核版本、发布时间、开源计划）"><a href="#uname-a-作用：获取较为详细的信息（包括类型、全部的主机名、内核版本、发布时间、开源计划）" class="headerlink" title="#uname  -a         作用：获取较为详细的信息（包括类型、全部的主机名、内核版本、发布时间、开源计划）"></a>#uname  -a         作用：获取较为详细的信息（包括类型、全部的主机名、内核版本、发布时间、开源计划）</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670296595.png" alt="1635670296595"></p>
+<h2 id="15）netstat指令–作用：查看网络连接状态"><a href="#15）netstat指令–作用：查看网络连接状态" class="headerlink" title="15）netstat指令–作用：查看网络连接状态"></a>15）netstat指令–作用：查看网络连接状态</h2><h6 id="netstat-选项"><a href="#netstat-选项" class="headerlink" title="#netstat  [选项]"></a>#netstat  [选项]</h6><p><strong>-t</strong>          <strong>作用：只列出tcp协议的连接</strong> </p>
+<p><strong>-n</strong>         <strong>作用：表示将地址从字母组合转化为ip地址，将协议转化为端口号显示</strong> </p>
+<p><strong>-l</strong>          <strong>作用：过滤出“start”列出其值为LISTEN的连接</strong> </p>
+<p><strong>-p</strong>         <strong>作用：显示发起连接进程的pid和name</strong> </p>
+<p>-tnlp      </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670315139.png" alt="1635670315139"></p>
+<h2 id="16）man指令–作用：手册，查看指令的"><a href="#16）man指令–作用：手册，查看指令的" class="headerlink" title="16）man指令–作用：手册，查看指令的"></a>16）man指令–作用：手册，查看指令的</h2><h6 id="man-指令"><a href="#man-指令" class="headerlink" title="#man  指令"></a>#man  指令</h6><p>按q退出 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670327446.png" alt="1635670327446"></p>
+<h2 id="17）grep"><a href="#17）grep" class="headerlink" title="17）grep"></a>17）grep</h2><p>可以通过正则表达式，搜索文件内容，展示在终端 </p>
+<h2 id="18）sed"><a href="#18）sed" class="headerlink" title="18）sed"></a>18）sed</h2><p>和vim类似，不同的是vim是打开文件，在文件内对文件进行操作，sed是在终端修改，且不会直接修改源文件，而是在缓存区对文件内容操作 </p>
+<h2 id="19）awk"><a href="#19）awk" class="headerlink" title="19）awk"></a>19）awk</h2><p>和 sed 命令类似，awk 命令也是逐行扫描文件（从第 1 行到最后一行），寻找含有目标文本的行，如果匹配成功，则会在该行上执行用户想要的操作；反之，则不对行做任何处理。 </p>
+<h1 id="五、练习"><a href="#五、练习" class="headerlink" title="五、练习"></a>五、练习</h1><p>1）快速删除光标前或者光标后的内容       前：ctrl+u         后：ctrl+k </p>
+<p>2）删除&#x2F;tmp下所有A开头的文件               #rm  -f  &#x2F;tmp&#x2F;A* </p>
+<p>3）将&#x2F;etc&#x2F;passwd中的文件备份到&#x2F;tmp目录下              #cp  &#x2F;etc&#x2F;passwd  &#x2F;tmp </p>
+<p>4）查看系统最后创建的3个用户               #tail  -3  &#x2F;etc&#x2F;passwd </p>
+<p>5）统计当前系统中一共的用户数              #cat  &#x2F;etc&#x2F;passwd |wc  -l                  # wc -l  &#x2F;etc&#x2F;passwd </p>
+<p>6）查看&#x2F;etc所占的磁盘空间               #du  -sh  &#x2F;etc </p>
+<p>7）删除&#x2F;tmp下所有文件           #rm  -f   &#x2F;tmp&#x2F;* </p>
+<h1 id="六、vim编辑器"><a href="#六、vim编辑器" class="headerlink" title="六、vim编辑器"></a>六、vim编辑器</h1><p>Vim重点是光标的移动，模式切换，删除，查找，替换，复制，粘贴，撤销命令的使用 </p>
+<h2 id="1）vim三种模式"><a href="#1）vim三种模式" class="headerlink" title="1）vim三种模式"></a>1）vim三种模式</h2><p>vim存在三种模式：命令模式、编辑模式、末行模式 </p>
+<p>命令模式：该模式下不能对文件进行直接编辑，可以输入一些快捷键进行一些操作（删除行、复制行、移动光标、粘贴等）【打开文件默认进入的模式】 </p>
+<p>编辑模式：在该模式下可以对文件的内容进行编辑 </p>
+<p>末行模式：可以在末行输入命令来对文件进行操作（搜索、替换、保存、退出、撤销、高亮等） </p>
+<p>打开文件的方式有4种： </p>
+<p><strong>#vim  文件路径</strong>         <strong>作用：打开指定的文件</strong> </p>
+<p><strong>#vim  +数字  文件路径</strong>       <strong>作用：光标移动到指定行</strong> </p>
+<p><strong>#vim  +&#x2F;关键词  文件路径</strong>       <strong>作用：打开指定的文件，并且高亮行</strong> </p>
+<p><strong>#vim  文件路径1  文件路径2  …  文件路径n</strong>       <strong>作用：同时打开多个文件</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670348309.png" alt="1635670348309"></p>
+<h2 id="2）命令模式"><a href="#2）命令模式" class="headerlink" title="2）命令模式"></a>2）命令模式</h2><p>默认打开模式 </p>
+<h6 id="（1）光标移动"><a href="#（1）光标移动" class="headerlink" title="（1）光标移动"></a>（1）光标移动</h6><p>①shift+6(T字母右上角)&#x2F;^         作用：光标移动到行首 </p>
+<p>②shift+4 (R字母左上角)&#x2F;$        作用：光标移动到行尾   </p>
+<p>③gg          作用：光标移动到首行 </p>
+<p>④G            作用：光标移动到末行 </p>
+<p>⑤（ctrl+b）&#x2F;pgup                     作用：向上翻屏 </p>
+<p>⑥（ctrl+f）&#x2F;pgdown                 作用：向下翻屏     </p>
+<p>⑦数字G              作用：快速将光标移动到指定的行数 </p>
+<p>⑧数字↑&#x2F;↓            作用：将当前光标为准向上&#x2F;下移动n行 </p>
+<p>⑨数字←&#x2F;→         作用：将当前光标为准向左&#x2F;右移动n行 </p>
+<p>⑩：数字             作用：末行模式下的快速移动到指定行    </p>
+<h6 id="（2）复制（用p键复制）"><a href="#（2）复制（用p键复制）" class="headerlink" title="（2）复制（用p键复制）"></a>（2）复制（用p键复制）</h6><p>①yy                      作用：复制光标所在行         </p>
+<p>②数字yy              作用：以光标所在行向下复制，包括当前行  </p>
+<p>③ctrl+v   接着按↑↓ 接着按yy                           作用：可视化复制   </p>
+<h6 id="（3）剪切-x2F-删除（可用p键复制）"><a href="#（3）剪切-x2F-删除（可用p键复制）" class="headerlink" title="（3）剪切&#x2F;删除（可用p键复制）"></a>（3）剪切&#x2F;删除（可用p键复制）</h6><p>①dd                  作用：剪切&#x2F;删除光标所在行，删除后下一行上移 </p>
+<p>②数字dd          作用：以光标所在行向下剪切&#x2F;删除，包括当前行，删除后下一行上移 </p>
+<p>③D                  作用：剪切&#x2F;删除当前行为空白，下一行不上移 </p>
+<h6 id="（4）撤销-x2F-恢复"><a href="#（4）撤销-x2F-恢复" class="headerlink" title="（4）撤销&#x2F;恢复"></a>（4）撤销&#x2F;恢复</h6><p>①u                作用：撤销  </p>
+<p>②ctrl+r         作用：恢复撤销  </p>
+<h2 id="3）模式间的相互切换"><a href="#3）模式间的相互切换" class="headerlink" title="3）模式间的相互切换"></a>3）模式间的相互切换</h2><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670390148.png" alt="1635670390148"></p>
+<h2 id="4）末行模式"><a href="#4）末行模式" class="headerlink" title="4）末行模式"></a>4）末行模式</h2><p>进入方式：输入英文的冒号: </p>
+<h6 id="（1）保存操作"><a href="#（1）保存操作" class="headerlink" title="（1）保存操作"></a>（1）保存操作</h6><p>①：w                作用：保存文件 </p>
+<p>②：w  路径       作用：另存为 </p>
+<h6 id="（2）退出"><a href="#（2）退出" class="headerlink" title="（2）退出"></a>（2）退出</h6><p>：q            作用：退出 </p>
+<h6 id="（3）保存并退出"><a href="#（3）保存并退出" class="headerlink" title="（3）保存并退出"></a>（3）保存并退出</h6><p>：wq         作用：保存并退出 </p>
+<h6 id="（4）强制"><a href="#（4）强制" class="headerlink" title="（4）强制"></a>（4）强制</h6><p>：q！         作用：强制退出，不保存操作 </p>
+<h6 id="（5）调用外部命令"><a href="#（5）调用外部命令" class="headerlink" title="（5）调用外部命令"></a>（5）调用外部命令</h6><p>：!外部命令           作用：暂时退出显示外部命令的执行结果 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670414983.png" alt="1635670414983"></p>
+<h6 id="（6）搜索-x2F-查找"><a href="#（6）搜索-x2F-查找" class="headerlink" title="（6）搜索&#x2F;查找"></a>（6）搜索&#x2F;查找</h6><p>&#x2F;关键词            作用：搜索关键字并高亮 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670428109.png" alt="1635670428109"></p>
+<p><strong>在搜索结果中切换上&#x2F;下结果：“<strong><strong>N&#x2F;n</strong></strong>”</strong> </p>
+<p><strong>取消高亮：“<strong><strong>：nohl</strong></strong>”</strong> </p>
+<h6 id="（7）替换"><a href="#（7）替换" class="headerlink" title="（7）替换"></a>（7）替换</h6><p>①：s&#x2F;搜索的关键词&#x2F;新的内容                 作用：替换光标所在行的第一处 </p>
+<p>②：s&#x2F;搜索的关键词&#x2F;新的内容&#x2F;g              作用：替换光标所在行的所有 </p>
+<p>③：%s&#x2F;搜索的关键词&#x2F;新的内容              作用：替换所有行的第一处 </p>
+<p>④：%s&#x2F;搜索的关键词&#x2F;新的内容&#x2F;g           作用：替换所有行 </p>
+<h6 id="（8）显示行号"><a href="#（8）显示行号" class="headerlink" title="（8）显示行号"></a>（8）显示行号</h6><p>：set nu           作用：临时显示行号 </p>
+<p>输入“：set nonu”取消显示 </p>
+<h6 id="（9）在末行模式下切换打开的多个文件"><a href="#（9）在末行模式下切换打开的多个文件" class="headerlink" title="（9）在末行模式下切换打开的多个文件"></a>（9）在末行模式下切换打开的多个文件</h6><p>①：files              作用：查看当前已经打开的文件名称 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670446560.png" alt="1635670446560"></p>
+<p>在%a的位置有2种显示的可能： </p>
+<p>%a：a&#x3D;active，表示当前正在打开的文件 </p>
+<p>#：表示上一个打开的文件 </p>
+<p>②：open 文件名            作用：打开指定切换的文件名 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670459425.png" alt="1635670459425"></p>
+<p>③：bp           作用：切换到上一个文件 </p>
+<p>④：bn           作用：切换到下一个文件 </p>
+<h2 id="5）编辑模式"><a href="#5）编辑模式" class="headerlink" title="5）编辑模式"></a>5）编辑模式</h2><p>进入方式： </p>
+<p><strong>i</strong>           <strong>作用：在光标所在字符前开始插入</strong> </p>
+<p><strong>a</strong>          <strong>作用：在光标所在字符后开始插入</strong> </p>
+<p><strong>o</strong>          <strong>作用：在光标所在行的下main另起一新行插入</strong> </p>
+<p><strong>I</strong>           <strong>作用：在光标所在行的行首开始插入，如果行首有空格则在空格之后插入</strong> </p>
+<p><strong>A</strong>          <strong>作用：在光标所在行的行尾插入</strong> </p>
+<p><strong>O</strong>          <strong>作用：在光标所在行的上面另起一新行开始插入</strong> </p>
+<p><strong>S</strong>          <strong>作用：删除光标所在行并开始插入</strong> </p>
+<h2 id="6）实用功能"><a href="#6）实用功能" class="headerlink" title="6）实用功能"></a>6）实用功能</h2><h6 id="（1）代码着色"><a href="#（1）代码着色" class="headerlink" title="（1）代码着色"></a>（1）代码着色</h6><p>①：syntax  on       作用：显示颜色 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670472463.png" alt="1635670472463"></p>
+<p>②：syntax  off       作用：关闭显示 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670481621.png" alt="1635670481621"></p>
+<h6 id="（2）vim中计算器的使用"><a href="#（2）vim中计算器的使用" class="headerlink" title="（2）vim中计算器的使用"></a>（2）vim中计算器的使用</h6><p>在编辑文件中需要使用计算器编辑计算公式，vim自身集成了一个简易的计算器。 </p>
+<p>进入编辑模式→按下“ctrl+r”→输入“&#x3D;” </p>
+<h2 id="7）vim的配置"><a href="#7）vim的配置" class="headerlink" title="7）vim的配置"></a>7）vim的配置</h2><p>vim是编辑器，有配置文件，vim配置有三种情况： </p>
+<p>（1）在文件打开时末行模式下输入的配置（临时的配置） </p>
+<p>（2）个人配置文件（~&#x2F;.vimrc，可自行新建） </p>
+<p>新建之后进入编辑模式，进行配置输入 </p>
+<p>（3）全局配置文件（vim自带，&#x2F;etc&#x2F;vimrc） </p>
+<p>如果针对同一项的配置，个人配置中存在，就以个人配置为准，否则以全局配置为准 </p>
+<h2 id="8）异常退出"><a href="#8）异常退出" class="headerlink" title="8）异常退出"></a>8）异常退出</h2><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670493125.png" alt="1635670493125"></p>
+<p>在编辑文件后并没有保存退出，遇到突然关闭终端或者异常断电的情况，就是异常退出，如上图。 </p>
+<p><strong>解决办法：将交换文件.xxx.swp（编辑过程中的临时文件）删除</strong> </p>
+<h2 id="9）新建别名"><a href="#9）新建别名" class="headerlink" title="9）新建别名"></a>9）新建别名</h2><p>作用：相当于创建属于自己的自定义命令 </p>
+<p>别名机制是依靠一个别名映射文件：~&#x2F;.bashrc </p>
+<p>新创建的命令生效：重新登录当前用户 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670502624.png" alt="1635670502624"></p>
+<h2 id="10）退出方式"><a href="#10）退出方式" class="headerlink" title="10）退出方式"></a>10）退出方式</h2><p>vim另外的保存退出方式：“：x” </p>
+<p>如果文件没有被修改，使用“：wq”退出的话，文件的修改时间会被更新；“：x”则不会。 </p>
+<p>会混淆用户对修改时间的认定 </p>
+<h1 id="七、linux自有服务"><a href="#七、linux自有服务" class="headerlink" title="七、linux自有服务"></a>七、linux自有服务</h1><p>自有服务：不需要用户独立去安装的软件服务，当系统安装好之后就可以直接使用的服务 </p>
+<h2 id="1）运行模式"><a href="#1）运行模式" class="headerlink" title="1）运行模式"></a>1）运行模式</h2><p>运行模式也可以称之为运行级别。 </p>
+<p>在linux中存在一个进程：init（initialize，初始化），进程id 为1 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670529894.png" alt="1635670529894"></p>
+<p>该进程存在一个对应的配置文件：inittab（系统运行级别配置文件，位于&#x2F;etc&#x2F;inittab） </p>
+<p>文件内容如下： </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670540615.png" alt="1635670540615"></p>
+<p>与该级别相关的几个命令： </p>
+<p>①#init  0          作用：关机 </p>
+<p>②#init  3          作用：切换到不带桌面的模式 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670558488.png" alt="1635670558488"></p>
+<p>开机之后仍是图片界面，设置模式为永久命令行模式：将&#x2F;etc&#x2F;inittab中的initdefault值设置为3，然后重启电脑。 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670571291.png" alt="1635670571291"></p>
+<p>③#init  5          作用：切换到图形界面 </p>
+<p>④#init  6          作用：重启 </p>
+<p>这些命令都是调用init进程，将数字（运行级别）传递给进程，进程去读配置文件执行对应的操作。 </p>
+<p>init命令需要超级管理员的权限，普通用户无法执行。 </p>
+<h2 id="2）用户与用户组管理"><a href="#2）用户与用户组管理" class="headerlink" title="2）用户与用户组管理"></a>2）用户与用户组管理</h2><p> Linux系统是一个多用户多任务的操作系统，任何一个要使用系统资源的用户，都必须首先向系统管理员申请一个账号，然后以这个账号的身份进入系统。 </p>
+<p>用户的账号一方面可以帮助系统管理员对使用系统的用户进行跟踪，并控制他们对系统资源的访问；另一方面也可以帮助用户组织文件，并为用户提供安全性保护。 </p>
+<p>每个用户账号都拥有一个惟一的用户名和各自的密码。 </p>
+<p>用户在登录时键入正确的用户名和密码后，就能够进入系统和自己的主目录。 </p>
+<p>要想实现用户账号的管理，要完成的工作主要有如下几个方面： </p>
+<p>a.用户账号的添加、删除、修改以及用密码的管理 </p>
+<p>b.用户组的管理 </p>
+<p><strong>注意三个文件：</strong> </p>
+<p> &#x2F;etc&#x2F;passwd        作用：存储用户的关键信息 </p>
+<p> &#x2F;etc&#x2F;group           作用：存储用户组的关键信息 </p>
+<p>&#x2F;etc&#x2F;shadow         作用：存储用户的密码信息 </p>
+<h6 id="（1）用户管理"><a href="#（1）用户管理" class="headerlink" title="（1）用户管理"></a>（1）用户管理</h6><p>除#passwd命令外，所有的用户操作命令只有root超级管理员有权限执行 </p>
+<p>①#useradd  [选项]  用户名         作用：添加用户 </p>
+<p>在不添加选项的时候，执行useradd之后会执行一系列的操作：创建同名的家目录、创建同名的目录组。 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670684936.png" alt="1635670684936"></p>
+<p>常用选项： </p>
+<p><strong>-g</strong>      <strong>作用：指定用户的用户主组，选项的值可以是用户组的id，也可以是组名</strong> </p>
+<p>可通过passwd文件查看用户的主组 </p>
+<p><strong>-G</strong>      <strong>作用：指定用户的用户附加组，选项的值可以是用户组的id，也可以是组名</strong> </p>
+<p>可通过group文件查看用户的附加组 </p>
+<p><strong>-u</strong>      <strong>作用：uid，用户的id（用户标识符），系统默认会从500之后按顺序分配uid，如果不想使用系统分配，可以通过该选项自定义</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670704320.png" alt="1635670704320"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670710275.png" alt="1635670710275"></p>
+<p>验证是否创建成功： </p>
+<p>a.查看&#x2F;etc&#x2F;passwd最后一行是否有新增用户信息 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670733106.png" alt="1635670733106"></p>
+<p>b.验证是否存在家目录（会产生同名家目录） </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670745406.png" alt="1635670745406"></p>
+<p>②#usermod  [选项]  用户名        作用：修改用户 </p>
+<p>常用选项： </p>
+<p><strong>-g</strong>      <strong>作用：指定用户的用户主组，选项的值可以是用户组的id，也可以是组名</strong> </p>
+<p>可通过passwd文件查看用户的主组 </p>
+<p><strong>-G</strong>      <strong>作用：指定用户的用户附加组，选项的值可以是用户组的id，也可以是组名</strong> </p>
+<p>可通过group文件查看用户的附加组 </p>
+<p><strong>-u</strong>      <strong>作用：uid，用户的id（用户标识符），系统默认会从500之后按顺序分配uid，如果不想使用系统分配，可以通过该选项自定义</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670756506.png" alt="1635670756506"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670764531.png" alt="1635670764531"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670797931.png" alt="1635670797931"></p>
+<p><strong>-l</strong>       <strong>作用：修改用户名，新用户名在前</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670811551.png" alt="1635670811551"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670821181.png" alt="1635670821181"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670829665.png" alt="1635670829665"></p>
+<p>③#passwd  用户名             作用：设置密码 </p>
+<p>修改密码的过程中，没有输入提示 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670840890.png" alt="1635670840890"></p>
+<p>设置之后可以查看密码 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670851412.png" alt="1635670851412"></p>
+<p>设置密码之后就可以登录用户。 </p>
+<p><strong>#su[用户名]</strong>    <strong>作用：切换用户名，用户名不指定切换到root用户</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670867726.png" alt="1635670867726"></p>
+<p>④#userdel  [选项]  用户名           作用：删除用户 </p>
+<p>常见选项： </p>
+<p><strong>-r</strong>       <strong>作用：删除用户的同时，删除其家目录</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670877765.png" alt="1635670877765"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670888840.png" alt="1635670888840"></p>
+<h6 id="（2）用户组管理"><a href="#（2）用户组管理" class="headerlink" title="（2）用户组管理"></a>（2）用户组管理</h6><p>每个用户都有一个用户组，系统可以对一个用户组中的所有用户进行集中管理。不同Linux系统对用户组的规定有所不同，如Linux下的用户属于与它同名的用户组，这个用户组在创建用户时同时创建。 </p>
+<p>用户组的管理涉及用户组的添加、删除和修改。组的增加、删除和修改实际上就是对&#x2F;etc&#x2F;group文件的更新。 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670897915.png" alt="1635670897915"></p>
+<p>①#groupadd  [选项]  用户组名          作用：用户组添加 </p>
+<p>常用选项： </p>
+<p><strong>-g</strong>           <strong>作用：类似用户添加里的“-u”，表示可以选择自己设置一个自定义的用户组id数字，不指定则默认从500之后递增</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670906663.png" alt="1635670906663"></p>
+<p>②#groupmod  [选项]  用户组名        作用：用户组编辑 </p>
+<p>常用选项： </p>
+<p><strong>-g</strong>           <strong>作用：类似用户修改里的“-u”，表示可以选择自己设置一个自定义的用户组id数字，不指定则默认从500之后递增</strong> </p>
+<p><strong>-n</strong>           <strong>作用：类似用户修改里的“-l”，表示设置新的用户组的名称</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670917349.png" alt="1635670917349"></p>
+<p>③#groupdel  [选项]  用户组名            作用：删除用户组 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670930379.png" alt="1635670930379"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670937864.png" alt="1635670937864"></p>
+<h2 id="3）网络设置"><a href="#3）网络设置" class="headerlink" title="3）网络设置"></a>3）网络设置</h2><p>网卡配置文件，在目录中网卡的配置文件命名格式：ifcig-网卡名称 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670960418.png" alt="1635670960418"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670970402.png" alt="1635670970402"></p>
+<h6 id="（1）-ln-s-作用：创建快捷方式，软连接"><a href="#（1）-ln-s-作用：创建快捷方式，软连接" class="headerlink" title="（1）#ln -s       作用：创建快捷方式，软连接"></a>（1）#ln -s       作用：创建快捷方式，软连接</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670982655.png" alt="1635670982655"></p>
+<h6 id="（2）-service-network-restart-作用：重启网卡"><a href="#（2）-service-network-restart-作用：重启网卡" class="headerlink" title="（2）#service  network  restart            作用：重启网卡"></a>（2）#service  network  restart            作用：重启网卡</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635670994606.png" alt="1635670994606"></p>
+<p> 在有的分支版本中可能没有service 命令来快速操作服务，但是有一个共性的目录：&#x2F;etc&#x2F;init.d这个目录中放着很多服务的快捷方式。 </p>
+<p>此处重启网卡命令还可以使用： #&#x2F;etc&#x2F;init.d&#x2F;network restart </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671004072.png" alt="1635671004072"></p>
+<h6 id="（3）-ifdown-网卡名-作用：停止某个网卡"><a href="#（3）-ifdown-网卡名-作用：停止某个网卡" class="headerlink" title="（3）#ifdown  网卡名          作用：停止某个网卡"></a>（3）#ifdown  网卡名          作用：停止某个网卡</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671013970.png" alt="1635671013970"></p>
+<h6 id="（4）-ifup-网卡名-作用：开启某个网卡"><a href="#（4）-ifup-网卡名-作用：开启某个网卡" class="headerlink" title="（4）#ifup  网卡名           作用：开启某个网卡"></a>（4）#ifup  网卡名           作用：开启某个网卡</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671022597.png" alt="1635671022597"></p>
+<p><strong>在实际工作中不能随意禁止网卡</strong> </p>
+<h2 id="4）ssh服务"><a href="#4）ssh服务" class="headerlink" title="4）ssh服务"></a>4）ssh服务</h2><p>全称：Secure shell（安全外壳协议），该协议有2个常见的作用：远程连接协议、远程文件传输协议。 </p>
+<p>协议使用的端口号：默认22（可以被修改。如果要修改，需要修改ssh服务的配置文件：&#x2F;etc&#x2F;ssh&#x2F;ssh_config） </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671039861.png" alt="1635671039861"></p>
+<h6 id="（1）-service-sshd-start-x2F-stop-x2F-restart-作用：ssh服务的开启-x2F-停止-x2F-重启"><a href="#（1）-service-sshd-start-x2F-stop-x2F-restart-作用：ssh服务的开启-x2F-停止-x2F-重启" class="headerlink" title="（1）#service  sshd  start&#x2F;stop&#x2F;restart         作用：ssh服务的开启&#x2F;停止&#x2F;重启"></a>（1）#service  sshd  start&#x2F;stop&#x2F;restart         作用：ssh服务的开启&#x2F;停止&#x2F;重启</h6><p>  或者 #&#x2F;etc&#x2F;init.d&#x2F;network  start&#x2F;stop&#x2F;restart  </p>
+<h6 id="（2）远程终端"><a href="#（2）远程终端" class="headerlink" title="（2）远程终端"></a>（2）远程终端</h6><p>终端工具主要是帮助运维人员连接远程的服务器，常见的终端工具有：Xshell、secureCRT、Putty等。 </p>
+<p>a.获取服务器IP地址，可以通过ifconfig命令查看，然后测试ip的连接相通性 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671050191.png" alt="1635671050191"></p>
+<p>b.打开putty，输入相关信息 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671069121.png" alt="1635671069121"></p>
+<p>c.输入用户名登录 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671081880.png" alt="1635671081880"></p>
+<h6 id="（3）ssh服务文件传输"><a href="#（3）ssh服务文件传输" class="headerlink" title="（3）ssh服务文件传输"></a>（3）ssh服务文件传输</h6><p>①可视化的界面传输工具：filezilla </p>
+<p>a.打开“文件”→“站点管理器” </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671092185.png" alt="1635671092185"></p>
+<p>b.连接好之后的效果 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671102936.png" alt="1635671102936"></p>
+<p>c.从本地windows上传文件到linux中方式：直接拖拽文件，也可以右键本地需要上传的文件，然后点击“上传”即可 </p>
+<p>d.从linux下载文件到本地windows中方式：直接拖拽文件，也可以右键linux中需要下载的文件，然后点击“下载”即可 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671116691.png" alt="1635671116691"></p>
+<p>②使用命令行传输文件&#x2F;文件夹：pscp.exe（需要通过cmd命令行打开） </p>
+<p>为了使用方便可以将其放置在环境变量目录中，如果不清楚哪些路径是环境变量，只需将其放到C:&#x2F;windows目录下即可。 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671125497.png" alt="1635671125497"></p>
+<p>a.下载到本地：将远程linux下的etc整个目录下载到F:\download下 </p>
+<p><strong>pscp -r <a href="mailto:&#x72;&#111;&#111;&#x74;&#x40;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#56;&#x2e;&#x38;&#x2e;&#x31;&#x39;&#50;">&#x72;&#111;&#111;&#x74;&#x40;&#x31;&#57;&#50;&#46;&#x31;&#x36;&#56;&#x2e;&#x38;&#x2e;&#x31;&#x39;&#50;</a>:&#x2F;etc F:\download</strong> </p>
+<p>b.上传到linux：将E:\code整个目录上传到远程linux：&#x2F;root下 </p>
+<p><strong>pscp -r E:\code <a href="mailto:&#114;&#111;&#111;&#x74;&#64;&#x31;&#57;&#50;&#46;&#x31;&#54;&#56;&#46;&#x38;&#x2e;&#49;&#x39;&#50;">&#114;&#111;&#111;&#x74;&#64;&#x31;&#57;&#50;&#46;&#x31;&#54;&#56;&#46;&#x38;&#x2e;&#49;&#x39;&#50;</a>:&#x2F;root</strong> </p>
+<p>《“-r” 会有报错，建议单个传输，并加上“-P 22”》 </p>
+<h2 id="5）设置主机名"><a href="#5）设置主机名" class="headerlink" title="5）设置主机名"></a>5）设置主机名</h2><h6 id="（1）-hostname-设置的主机名-作用：临时设置主机名"><a href="#（1）-hostname-设置的主机名-作用：临时设置主机名" class="headerlink" title="（1）#hostname  设置的主机名           作用：临时设置主机名"></a>（1）#hostname  设置的主机名           作用：临时设置主机名</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671134267.png" alt="1635671134267"></p>
+<h6 id="（2）永久设置主机名"><a href="#（2）永久设置主机名" class="headerlink" title="（2）永久设置主机名"></a>（2）永久设置主机名</h6><p>先找到文件“&#x2F;etc&#x2F;sysconfig&#x2F;network”，修改其中hostname为自定义主机名，接着修改linux服务器的hosts文件，将自定义主机名指向本地（设置FQDN） </p>
+<p> 问题:不设置FQDN会怎么样? </p>
+<p>①很多开源服务器软件（例如Apache）则无法启动，或出现报错； </p>
+<p>②方便记忆，看到主机名对其作用有一个初步判断； </p>
+<p>③如果不设置则会影响本地的域名的解析(本地访问)； </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671148826.png" alt="1635671148826"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671155091.png" alt="1635671155091"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635671167470.png" alt="1635671167470"></p>
+<h2 id="6）chkconfig"><a href="#6）chkconfig" class="headerlink" title="6）chkconfig"></a>6）chkconfig</h2><p> 作用：相当于windows下“安全卫士”、“电脑管家”之类的安全辅助工具提供“开机启动项”的一个管理服务。  </p>
+<p>在linux下并不是所有软件安装之后都有开机启动服务，有的可能需要自己去添加，除此之外还可以查看和删除。 </p>
+<h6 id="（1）-chkconfig-–list-作用：开机启动服务查询"><a href="#（1）-chkconfig-–list-作用：开机启动服务查询" class="headerlink" title="（1）#chkconfig  –list           作用：开机启动服务查询"></a>（1）#chkconfig  –list           作用：开机启动服务查询</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635684929920.png" alt="1635684929920"></p>
+<h6 id="（2）-chkconfig-–del-服务名-作用：删除服务"><a href="#（2）-chkconfig-–del-服务名-作用：删除服务" class="headerlink" title="（2）#chkconfig  –del  服务名          作用：删除服务"></a>（2）#chkconfig  –del  服务名          作用：删除服务</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635684940736.png" alt="1635684940736"></p>
+<h6 id="（3）-chkconfig-–add-服务名-作用：添加开机启动服务"><a href="#（3）-chkconfig-–add-服务名-作用：添加开机启动服务" class="headerlink" title="（3）#chkconfig  –add  服务名           作用：添加开机启动服务"></a>（3）#chkconfig  –add  服务名           作用：添加开机启动服务</h6><p>必须保证添加的服务名能够正常运行 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635684949913.png" alt="1635684949913"></p>
+<h6 id="（4）-chkconfig-–level-连在一起的启动级别-服务名-on-x2F-off-作用：设置服务在某个级别下开机启动-x2F-不启动"><a href="#（4）-chkconfig-–level-连在一起的启动级别-服务名-on-x2F-off-作用：设置服务在某个级别下开机启动-x2F-不启动" class="headerlink" title="（4）#chkconfig  –level  连在一起的启动级别  服务名  on&#x2F;off           作用：设置服务在某个级别下开机启动&#x2F;不启动"></a>（4）#chkconfig  –level  连在一起的启动级别  服务名  on&#x2F;off           作用：设置服务在某个级别下开机启动&#x2F;不启动</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635684959864.png" alt="1635684959864"></p>
+<h2 id="7）ntp服务"><a href="#7）ntp服务" class="headerlink" title="7）ntp服务"></a>7）ntp服务</h2><p>作用：主要用于对计算机的时间同步管理操作 </p>
+<p>时间对于服务器来说是很重要的，一般很多网站都需要读取服务器时间来记录相关信息，如果时间不准，也可能造成很大的影响。 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635684970102.png" alt="1635684970102"></p>
+<h6 id="（1）-ntpdate-时间服务器的域名或者IP地址-作用：一次性同步时间（手动）"><a href="#（1）-ntpdate-时间服务器的域名或者IP地址-作用：一次性同步时间（手动）" class="headerlink" title="（1）#ntpdate  时间服务器的域名或者IP地址         作用：一次性同步时间（手动）"></a>（1）#ntpdate  时间服务器的域名或者IP地址         作用：一次性同步时间（手动）</h6><p>IP地址查看访问：<a target="_blank" rel="noopener" href="http://www.ntp.org.cn/pool">http://www.ntp.org.cn/pool</a> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635684981848.png" alt="1635684981848"></p>
+<h6 id="（2）ntpd服务：时间同步服务（自动同步）"><a href="#（2）ntpd服务：时间同步服务（自动同步）" class="headerlink" title="（2）ntpd服务：时间同步服务（自动同步）"></a>（2）ntpd服务：时间同步服务（自动同步）</h6><p>启动服务：#service nptd start         #&#x2F;etc&#x2F;init.d&#x2F;nptd  start </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635684990096.png" alt="1635684990096"></p>
+<h2 id="8）防火墙"><a href="#8）防火墙" class="headerlink" title="8）防火墙"></a>8）防火墙</h2><p>包括软件防火墙、硬件防火墙。保护网络安全。centos6.5中防火墙的名字为：iptables </p>
+<h6 id="（1）查看iptables是否开机启动"><a href="#（1）查看iptables是否开机启动" class="headerlink" title="（1）查看iptables是否开机启动"></a>（1）查看iptables是否开机启动</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635684999056.png" alt="1635684999056"></p>
+<h6 id="（2）-service-iptables-start-x2F-stop-x2F-restart-作用：iptables启动-x2F-关闭-x2F-重启"><a href="#（2）-service-iptables-start-x2F-stop-x2F-restart-作用：iptables启动-x2F-关闭-x2F-重启" class="headerlink" title="（2）#service iptables start&#x2F;stop&#x2F;restart        作用：iptables启动&#x2F;关闭&#x2F;重启"></a>（2）#service iptables start&#x2F;stop&#x2F;restart        作用：iptables启动&#x2F;关闭&#x2F;重启</h6><p>​         #&#x2F;etc&#x2F;init.d&#x2F;nptd  start&#x2F;stop&#x2F;restart </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685009731.png" alt="1635685009731"></p>
+<h6 id="（3）-service-iptables-status-作用：查看iptables状态（规则）"><a href="#（3）-service-iptables-status-作用：查看iptables状态（规则）" class="headerlink" title="（3）#service iptables status         作用：查看iptables状态（规则）"></a>（3）#service iptables status         作用：查看iptables状态（规则）</h6><p>如果该服务没有启动，则提示服务没有启动 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685026600.png" alt="1635685026600"></p>
+<h6 id="（4）-iptables-L-n-作用：查看iptables（规则）"><a href="#（4）-iptables-L-n-作用：查看iptables（规则）" class="headerlink" title="（4）#iptables -L -n         作用：查看iptables（规则）"></a>（4）#iptables -L -n         作用：查看iptables（规则）</h6><p><strong>-L</strong>       <strong>作用：列出规则</strong> </p>
+<p><strong>-n</strong>       <strong>作用：将单词表达形式改为数字表达形式</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685061828.png" alt="1635685061828"></p>
+<h6 id="（5）简单设置防火墙规则"><a href="#（5）简单设置防火墙规则" class="headerlink" title="（5）简单设置防火墙规则"></a>（5）简单设置防火墙规则</h6><p><strong>①</strong> <strong>iptables  -A  INPUT  -s  127.0.0.1  -d  127.0.0.1  -j  ACCEPT</strong>           <strong>作用：允许本地回环接口(即运行本机访问本机)</strong> </p>
+<p><strong>②****iptables  -A  INPUT  -m  state  –state  ESTABLISHED, RELATED  -j  ACCEPT</strong>           <strong>作用：允许已建立的或相关连的通行</strong> </p>
+<p><strong>③****iptables  -A  OUTPUT  -j  ACCEPT</strong>          <strong>作用：允许所有本机向外的访问</strong> </p>
+<p><strong>④****iptables  -A  INPUT  -p  tcp  –dport  22</strong>  <strong>-j  ACCEPT</strong>          <strong>作用：允许访问22端口</strong> </p>
+<p><strong>⑤****iptables  -A  INPUT  -p  tcp  –dport  80  -j  ACCEPT</strong>          <strong>作用：允许访问80端口</strong> </p>
+<p><strong>⑥****iptables  -A  INPUT  -p  tcp  –dport  21  -j  ACCEPT</strong>          <strong>作用：允许ftp服务的21端口</strong> </p>
+<p><strong>⑦****iptables  -A  INPUT  -p  tcp  –dport  20  -j  ACCEPT</strong>          <strong>作用：允许PTP服务的20端口</strong> </p>
+<p><strong>⑧****iptables  -A  INPUT  -j  reject</strong>            <strong>作用：禁止其他未允许的规则访问</strong> </p>
+<p><strong>⑨****iptab1es  -A  FORIARD  -j  REJECT</strong>            <strong>作用：禁止其他未允许的规则访问</strong> </p>
+<p><strong>Iptables</strong> <strong>：主命令</strong> </p>
+<p><strong>-A****： add，添加规则</strong> </p>
+<p><strong>INPUT****：进站请求[出站output]</strong> </p>
+<p><strong>-p</strong> <strong>：protocol，指定协议（icmp&#x2F;tcp&#x2F;upd）</strong> </p>
+<p><strong>dport</strong> <strong>：指定端口号</strong> </p>
+<p><strong>-j</strong> <strong>：指定行为结果，允许（accept） &#x2F;禁止（reject</strong>） </p>
+<p><strong>添加之后要有保存操作：</strong><strong>&#x2F;etc&#x2F;init.d&#x2F;iptables save</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685083554.png" alt="1635685083554"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685092696.png" alt="1635685092696"></p>
+<h2 id="9）rpm管理"><a href="#9）rpm管理" class="headerlink" title="9）rpm管理"></a>9）rpm管理</h2><p>作用：rpm 的作用类似于windows上的电脑管家中“软件管理”、安全卫士里面“软件管家”等产品，主要作用是对linux，服务器上的软件包进行对应管理操作，管理分为：查询、卸载、安装。 </p>
+<h6 id="（1）-rpm-选项-grep-关键词-作用：查询某个软件的安装情况"><a href="#（1）-rpm-选项-grep-关键词-作用：查询某个软件的安装情况" class="headerlink" title="（1）#rpm  [选项]  |grep  关键词           作用：查询某个软件的安装情况"></a>（1）#rpm  [选项]  |grep  关键词           作用：查询某个软件的安装情况</h6><p><strong>-q</strong>        <strong>作用：查询</strong> </p>
+<p><strong>-a</strong>         <strong>作用：全部软件</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685104310.png" alt="1635685104310"></p>
+<h6 id="（2）-rpm-e-软件名称-作用：卸载某个软件"><a href="#（2）-rpm-e-软件名称-作用：卸载某个软件" class="headerlink" title="（2）#rpm  -e 软件名称              作用：卸载某个软件"></a>（2）#rpm  -e 软件名称              作用：卸载某个软件</h6><p><strong>#rpm  -e  软件名称  –nodeps</strong>            <strong>作用：强制卸载</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685114786.png" alt="1635685114786"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685126974.png" alt="1635685126974"></p>
+<h6 id="（3）软件安装"><a href="#（3）软件安装" class="headerlink" title="（3）软件安装"></a>（3）软件安装</h6><p> 要想装软件，和windows下一-样，先得找到安装包。软件包的获得方式： </p>
+<p>a. 去官网去下载； </p>
+<p>b.不介意老版本的话，可以从光盘(或者镜像文件)中读取； </p>
+<p>①#lsblk           作用：查看块状设备 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685139529.png" alt="1635685139529"></p>
+<p>②光盘挂载和解挂 </p>
+<p><strong>a.****#umount  当前设备的挂载点</strong>           <strong>作用：解挂</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685151253.png" alt="1635685151253"></p>
+<p><strong>b.****#mount  设备的原始路径  要挂载的路径</strong>               <strong>作用：挂载</strong> </p>
+<p>设备的原始路径：统一在&#x2F;dev下，然后根据大小确定具体的name值，拼凑在一起组成原始路径。例如当前的“&#x2F;dev&#x2F;sr0”。要挂载的路径：一般都在都在&#x2F;mnt下，也可以在&#x2F;mnt下建目录，此处以“&#x2F;mnt&#x2F;dvd”为例。 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685161737.png" alt="1635685161737"></p>
+<p>③#rpm  [选项]  软件包完成名称           作用：软件安装 </p>
+<p>选项： </p>
+<p><strong>-i</strong>            <strong>作用：安装</strong> </p>
+<p><strong>-v</strong>           <strong>作用：显示进度条</strong> </p>
+<p><strong>-h</strong>           <strong>作用：以“#”形式显示进度条</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685175759.png" alt="1635685175759"></p>
+<h2 id="10）cron-x2F-crontab计划任务"><a href="#10）cron-x2F-crontab计划任务" class="headerlink" title="10）cron&#x2F;crontab计划任务"></a>10）cron&#x2F;crontab计划任务</h2><p> 作用：操作系统不可能24小时都有人在操作，有些时候想在指定的时间点去执行任务（例 </p>
+<p>如：每天夜里2点去重新启动Apache），此时不可能真有人每天夜里2点去执行命令，此时 </p>
+<p>可以交给计划任务程序去执行操作。  </p>
+<h6 id="（1）-crontab-选项"><a href="#（1）-crontab-选项" class="headerlink" title="（1）#crontab  选项"></a>（1）#crontab  选项</h6><p>常见选项： </p>
+<p><strong>-l</strong>           <strong>作用：列出指定用户的计划任务列表</strong> </p>
+<p><strong>-e</strong>          <strong>作用：编辑指定用户的计划任务列表</strong> </p>
+<p><strong>-u</strong>          <strong>作用：指定的用户名，如果不指定，则表示当前用户</strong> </p>
+<p><strong>-r</strong>           <strong>作用：删除指定用户的计划任务列表</strong>  </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685190424.png" alt="1635685190424"></p>
+<p><strong>计划任务规则语法格式：以为单位，一行则为一个计划：****分  时  日  月  周  需要执行的命令</strong> </p>
+<p><strong>取值范围：分：<strong><strong>0~59</strong></strong>；时：<strong><strong>0~23</strong></strong>；日：<strong><strong>1~31</strong></strong>；月：<strong><strong>1~12</strong></strong>；周：<strong><strong>0~6</strong></strong>（0表示周日）</strong> </p>
+<p><strong>四个符号：“</strong>***<strong><strong>”：取值范围内的每一个数字；“</strong></strong>-<strong><strong>”：区间表达，用“1-7”表示1~7；“</strong></strong>&#x2F;<strong><strong>”：每多少个，“*&#x2F;10”表示每10分钟执行一次；“</strong></strong>,**<strong>”：多个取值，“1，2，6”表示1点，2点，6点多个取值</strong> </p>
+<p>①每1,10,22日的4:45重启network服务：45  4  1,10,22  *  *  service  network  restart </p>
+<p>②每周六、周日的1:10重启network服务：10  1  *  *  6,0  service  network  restart </p>
+<p>③每天18:00到23:00之间每隔30分钟重启network服务：*&#x2F;30  18-23  *  *  *  service  network  restart </p>
+<p>④每隔两天的上午8点到11点的第3和第15分钟执行一次重启：3,15  8-11  *&#x2F;2  *  *  reboot </p>
+<p>⑤每5分钟往root家目录中的RT.txt中输入当前的时间信息，为了看到效果使用追加输出：&#x2F;5  *  *  *  *  date  “+%F %T”  &gt;&gt; &#x2F;root&#x2F;RT.txt </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685206737.png" alt="1635685206737"></p>
+<h6 id="（2）Crontab权限问题"><a href="#（2）Crontab权限问题" class="headerlink" title="（2）Crontab权限问题"></a>（2）Crontab权限问题</h6><p>本身是任何用户都可以创建自己的计划任务，但是超级管理员可以通过配置来设置某些用户不允许设置计划任务 </p>
+<p>配置文件位于&#x2F;etc&#x2F;cron.deny（黑名单），里面写用户名，一行一个 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685219020.png" alt="1635685219020"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685228155.png" alt="1635685228155"></p>
+<p>配置文件位于&#x2F;etc&#x2F;cron.allow（白名单，本身不存在，需要自行创建），里面写用户名，一行一个。 </p>
+<p>白名单的优先级高于黑名单：如果针对同一用户，白名单中存在，就以白名单为准，否则以黑名单为准 </p>
+<h1 id="八、linux的权限管理操作"><a href="#八、linux的权限管理操作" class="headerlink" title="八、linux的权限管理操作"></a>八、linux的权限管理操作</h1><p>linux的权限操作与用户、用户组是兄弟操作 </p>
+<h2 id="1）权限概述"><a href="#1）权限概述" class="headerlink" title="1）权限概述"></a>1）权限概述</h2><p>总述: Linux 系统一般将 文件可存&#x2F;取访问的身份分为3个类别: owner、 group、 others, 且 </p>
+<p>3种身份各有read、 write、 execute等权限。 </p>
+<h6 id="（1）权限介绍"><a href="#（1）权限介绍" class="headerlink" title="（1）权限介绍"></a>（1）权限介绍</h6><p>在多用户（可以不同时）计算机系统的管理中，权限是指某个特定的用户具有特定的系统资源使用权力，像是文件夹、特定系统指令的使用或存储量的限制。 </p>
+<p>在linux中分别有读、写、执行权限： </p>
+<p>①读权限：对文件夹来说，读权限影响用户是否能够列出目录结构；对文件来说，读权限影响用户是否可以查看文件内容  </p>
+<p>②写权限：对文件夹来说，写权限影响用户是否可以在文件夹下创建&#x2F;删除&#x2F;复制到&#x2F;移动到文档 ； 对文件来说，写权限影响用户是否可以编辑文件  </p>
+<p>③执行权限：一般都是对于文件来说，特别是脚本文件。 </p>
+<h6 id="（2）身份介绍"><a href="#（2）身份介绍" class="headerlink" title="（2）身份介绍"></a>（2）身份介绍</h6><p>①Owner身份（文件所有者，默认为文档的创造者） </p>
+<p>由于Linux是多用户、多任务的操作系统,因此可能常常有多人同时在某台主机上工作，但每个人均可在主机上设置文件的权限，让其成为个人的“私密文件”，即个人所有者。因为设置了适当的文件权限，除本人(文件所有者)之外的用户无法查看文件内容。  </p>
+<p>②Group身份（与文件所有者同组的用户） </p>
+<p>与文件所有者同组最有用的功能就体现在多个团队在同一台主机上开发资源的时候。例如主机上有A、B两个团体，A中有a1，a2，a3 三个成员，B中有b1，b2两个成员，这两个团体要共同完成一份报告F。由于设置了适当的权限，A、B团体中的成员都能互相修改对方的数据，但是团体C的成员则不能修改F的内容，甚至连查看的权限都没有。同时，团体的成员也能设置自己的私密文件，让团队的其它成员也读取不了文件数据。在Linux中，每个账户支持多个用户组。如用户a1、b1即可属于A用户组，也能属于B用户组。  </p>
+<p>③Others身份（其他人） </p>
+<p>这个是相对概念。打个比方，大明、二明、小明一家三兄弟住在一间房，房产证上的登记者是大明，那么，大明一家就是一个用户组，这个组有大明、二明、小明三个成员；另外有个人叫张三，和他们三没有关系，那么这个张三就是其他人了。 </p>
+<p>同时，大明、二明、小明有各自的房间，三者虽然能自由进出各自的房间，但是小明不能让大明看到自己的情书、日记等，这就是文件所有者（用户）的意义。 </p>
+<p>④Root用户（超级用户） </p>
+<p>在Linux中，还有一个神一样存在的用户，这就是root用户，因为在所有用户中它拥有最大 </p>
+<p>的权限，所以管理着普通用户 。 </p>
+<h6 id="（3）linux的权限介绍"><a href="#（3）linux的权限介绍" class="headerlink" title="（3）linux的权限介绍"></a>（3）linux的权限介绍</h6><p> 要设置权限，就需要知道文件的一些基本属性和权限的分配规则。在Linux中，Is命令常用来查看文件的属性，用于显示文件的文件名和相关属性。. </p>
+<p><strong>#Is  -I  路径      同#ll</strong>  </p>
+<p>Linux中存在用户、用户组和其他人概念，各自有不同的权限，对于一个文档来说，其权限具体分配如下： </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685252379.png" alt="1635685252379"></p>
+<h2 id="2）-chmod-选项-权限模式-文档-作用：权限设置"><a href="#2）-chmod-选项-权限模式-文档-作用：权限设置" class="headerlink" title="2）#chmod  选项  权限模式  文档            作用：权限设置"></a>2）#chmod  选项  权限模式  文档            作用：权限设置</h2><p>常见选项： </p>
+<p><strong>-r</strong>        <strong>作用：递归设置权限（当文档类型为文件夹时）</strong> </p>
+<p>权限模式：就是文档需要设置的权限信息 </p>
+<p>如果想给一个文档设置权限，操作者要么是root用户，要么是文档的所有者 </p>
+<h6 id="（1）字母形式"><a href="#（1）字母形式" class="headerlink" title="（1）字母形式"></a>（1）字母形式</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685265114.png" alt="1635685265114"></p>
+<p>①**#chmod  u+x,g+rx,o+r  anaconda-ks.cfg**         <strong>作用：给anaconda-ks.cfg文件设置权限：所有者拥有全部权限，同组用户拥有读和执行权限，其他用户只读权限</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685279731.png" alt="1635685279731"></p>
+<p>②**#chmod  u&#x3D;rwx,g&#x3D;rx,o&#x3D;r  anaconda-ks.cfg**         <strong>作用：给anaconda-ks.cfg文件设置权限：所有者拥有全部权限，同组用户拥有读和执行权限，其他用户只读权限</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685293851.png" alt="1635685293851"></p>
+<p>③**#chmod  u-x,g-rx,o-r  anaconda-ks.cfg**         <strong>作用：还原anaconda-ks.cfg文件权限</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685305329.png" alt="1635685305329"></p>
+<p>④**#chmod  a&#x3D;—  anaconda-ks.cfg**         <strong>作用：取消anaconda-ks.cfg文件全部权限</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685369241.png" alt="1635685369241"></p>
+<p>⑤#chmod  a+x（或者a&#x3D;x或者+x） </p>
+<p>  anaconda-ks.cfg            作用：给所有用户增加执行权限 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685379241.png" alt="1635685379241"></p>
+<h6 id="（2）数字形式"><a href="#（2）数字形式" class="headerlink" title="（2）数字形式"></a>（2）数字形式</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685388911.png" alt="1635685388911"></p>
+<p>①**#chmod  754  anaconda-ks.cfg**         <strong>作用：给anaconda-ks.cfg文件设置权限：所有者拥有全部权限，同组用户拥有读和执行权限，其他用户只读权限</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685401839.png" alt="1635685401839"></p>
+<p>面试题：用超级管理员设置文档的权限命令是#chmod  -R  731  aaa，请问这个命令有没有什么不合理的地方 </p>
+<p>拥有者：7&#x3D;4+2+1（读+写+执行） </p>
+<p>同组用户：3&#x3D;2+1（写+执行）                 没有读权限，没办法写入。可使用“ehco  内容 &gt;&gt; 文档” </p>
+<p>其他人：1（执行） </p>
+<h6 id="（3）注意事项"><a href="#（3）注意事项" class="headerlink" title="（3）注意事项"></a>（3）注意事项</h6><p>使用root创建一个文件夹（&#x2F;oo），默认权限，权限如下： </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685416763.png" alt="1635685416763"></p>
+<p>在文件夹（&#x2F;oo）下创建文件（&#x2F;oo.txt），设置每个部分都拥有全部权限 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685425895.png" alt="1635685425895"></p>
+<p>切换到zhangsan用户 </p>
+<p>①zhangsan用户能否打开oo&#x2F;oo.txt文件？【能打开】 </p>
+<p>②zhangsan用户能否编辑oo&#x2F;oo.txt文件？【能】 </p>
+<p>③zhangsan用户能否删除oo&#x2F;oo.txt文件？【不允许，同样不允许创建、移动、重命名文件，和文件目录权限有关】 </p>
+<h2 id="3）属主与属组设置"><a href="#3）属主与属组设置" class="headerlink" title="3）属主与属组设置"></a>3）属主与属组设置</h2><p>属主：所属的主人（文件的主人） </p>
+<p>属组：所属的用户组 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685438429.png" alt="1635685438429"></p>
+<p>如果有时候需要去删除某个用户，则该用户对应的属主和属组信息就需要去修改 </p>
+<h6 id="（1）-chown-R-username-文档路径-作用：更改文档的所属用户，-R表递归（可选）"><a href="#（1）-chown-R-username-文档路径-作用：更改文档的所属用户，-R表递归（可选）" class="headerlink" title="（1）#chown  -R  username  文档路径            作用：更改文档的所属用户，-R表递归（可选）"></a>（1）#chown  -R  username  文档路径            作用：更改文档的所属用户，-R表递归（可选）</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685446954.png" alt="1635685446954"></p>
+<h6 id="（2）-chgrp-R-groupname-文档路径-作用：更改文档的所属用户组，-R表递归（可选）"><a href="#（2）-chgrp-R-groupname-文档路径-作用：更改文档的所属用户组，-R表递归（可选）" class="headerlink" title="（2）#chgrp  -R  groupname  文档路径        作用：更改文档的所属用户组，-R表递归（可选）"></a>（2）#chgrp  -R  groupname  文档路径        作用：更改文档的所属用户组，-R表递归（可选）</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685456666.png" alt="1635685456666"></p>
+<h6 id="（3）-chown-R-username：groupname-文档路径-作用：更改文档的所属用户和所属用户组，-R表递归（可选）"><a href="#（3）-chown-R-username：groupname-文档路径-作用：更改文档的所属用户和所属用户组，-R表递归（可选）" class="headerlink" title="（3）#chown  -R  username：groupname  文档路径            作用：更改文档的所属用户和所属用户组，-R表递归（可选）"></a>（3）#chown  -R  username：groupname  文档路径            作用：更改文档的所属用户和所属用户组，-R表递归（可选）</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685466555.png" alt="1635685466555"></p>
+<h2 id="4）sudo操作"><a href="#4）sudo操作" class="headerlink" title="4）sudo操作"></a>4）sudo操作</h2><p>reboot、shutdown、init、halt、user管理在普通用户上都是操作不了的，但是有些特殊情况下又需要有执行权限。 </p>
+<p>可以使用sudo（su do），命令进行权限设置。sudo可以让管理员（root）事先定义某些特殊命令谁可以执行。 </p>
+<p>sudo中默认只有root用户，使用之前需要先配置（即添加其他用户权限） </p>
+<p>sudo不是任何linux分支都有点的命令，常见centos与ubuntu都有sudo命令 </p>
+<h6 id="（1）配置sudo文件使用-visudo命令，打开之后和vim操作一样"><a href="#（1）配置sudo文件使用-visudo命令，打开之后和vim操作一样" class="headerlink" title="（1）配置sudo文件使用#visudo命令，打开之后和vim操作一样"></a>（1）配置sudo文件使用#visudo命令，打开之后和vim操作一样</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685476512.png" alt="1635685476512"></p>
+<h6 id="（2）配置普通用户的权限"><a href="#（2）配置普通用户的权限" class="headerlink" title="（2）配置普通用户的权限"></a>（2）配置普通用户的权限</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685486711.png" alt="1635685486711"></p>
+<p>本身zhangsan用户不能添加用户，要求使用sudo配置，将其设置为可以添加用户，并且可以修改密码（不能修改root用户密码），在写命令时不能使用直接形式命令，而需要写命令的完整路径 </p>
+<p><strong>#which  指令名称</strong>          <strong>作用：查看命令的完整路径</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685497020.png" alt="1635685497020"></p>
+<h6 id="（3）验证zhangsan用户是否拥有权限"><a href="#（3）验证zhangsan用户是否拥有权限" class="headerlink" title="（3）验证zhangsan用户是否拥有权限"></a>（3）验证zhangsan用户是否拥有权限</h6><p>在添加好对应的规则之后，就可以切换到普通用户zhangsan，再去执行。 </p>
+<p>需要使用命令#sudo  需要执行的命令去进行 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685510159.png" alt="1635685510159"></p>
+<p>为防止修改root密码，需要设置成如下配置 </p>
+<p><strong>!&#x2F;usr&#x2F;bin&#x2F;passwd,&#x2F;usr&#x2F;bin&#x2F;passwd[a-zA-Z]*,!&#x2F;usr&#x2F;bin&#x2F;passwd root</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685519506.png" alt="1635685519506"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685528521.png" alt="1635685528521"></p>
+<h6 id="（4）-sudo-l-作用：在普通用户下查看自己具有的特殊权限"><a href="#（4）-sudo-l-作用：在普通用户下查看自己具有的特殊权限" class="headerlink" title="（4）#sudo  -l          作用：在普通用户下查看自己具有的特殊权限"></a>（4）#sudo  -l          作用：在普通用户下查看自己具有的特殊权限</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685545297.png" alt="1635685545297"></p>
+<h1 id="九、linux网络基础"><a href="#九、linux网络基础" class="headerlink" title="九、linux网络基础"></a>九、linux网络基础</h1><h2 id="1）网络相关概述"><a href="#1）网络相关概述" class="headerlink" title="1）网络相关概述"></a>1）网络相关概述</h2><h6 id="（1）网络发展"><a href="#（1）网络发展" class="headerlink" title="（1）网络发展"></a>（1）网络发展</h6><p>1969年是internet元年 </p>
+<p>网络分类： </p>
+<p>局域网（Local Area Network, LAN） 是指范围在几百米到十几公里内办公楼群或校园内的计算机相互连接所构成的计算机网络。 </p>
+<p>城域网（Metropolitan Area Network，MAN）所采用的技术基本上与局域网相类似，只是规模上要大一些。城域网既可以覆盖相距不远的几栋办公楼，也可以覆盖一个城。 </p>
+<p>广域网（Wide Area Network, WAN）通常跨接很大的物理范围，如一个国家。 </p>
+<p>除了上述的划分，网络还可以按照所有者分为公网、私网是两种Internet的接入方式。 </p>
+<p>公网接入方式：上 网的计算机得到的IP地址是Internet上的非保留地址，公网的计算机和Internet上的其他计算机可随意互相访问。私网则反之。  </p>
+<h6 id="（2）IP地址"><a href="#（2）IP地址" class="headerlink" title="（2）IP地址"></a>（2）IP地址</h6><p>IP是英文Internet Protocol的缩写，意思是“网络之间互连的协议”，也就是为计算机网络相互连接进行通信而设计的协议。 </p>
+<p>IP地址类型分为：公有地址、私有地址。 </p>
+<p>公有地址（Public address）由Inter NIC （Internet Network Information Center因特网信息中心）负责。这些IP地址分配给注册并向InterNIC提出申请的组织机构。通过它直接访问因特网。 </p>
+<p>私有地址（Private address）属于非注册地址，专门为组织机构内部使用。以下列出留用的内部私有地址： </p>
+<p>A类：10.0.0.0–10.255.255.255 </p>
+<p>B类：172.16.0.0–172.31.255.255 </p>
+<p>C类：192.168.0.0–192.168.255.255 （常用） </p>
+<p><strong>IP地址按类型可以分为一下三类：</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685561701.png" alt="1635685561701"></p>
+<h6 id="（3）网卡"><a href="#（3）网卡" class="headerlink" title="（3）网卡"></a>（3）网卡</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685569771.png" alt="1635685569771"></p>
+<p>网卡是一个网络组件，属于硬件范畴，主要负责计算机之间数据的封装和解封。 </p>
+<p>MAC地址（十六进制，网卡的物理地址，网卡设备的编号，默认情况是全球唯一）与IP地址的区别：长度不同：IP地址为32位，MAC地址为48位；分配依据不同；网络寻址方式不同：IP地址基于osi模型第三层（网络层），mac地址是第二层（数据链路层） 。 </p>
+<h6 id="（4）网线"><a href="#（4）网线" class="headerlink" title="（4）网线"></a>（4）网线</h6><p>网线是连接局域网必不可少的。在局域网中常见的网线主要有双绞线（RJ45接口）、 </p>
+<p>同轴电缆、光缆三种。 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685580329.png" alt="1635685580329"></p>
+<h6 id="（5）交换机"><a href="#（5）交换机" class="headerlink" title="（5）交换机"></a>（5）交换机</h6><p>交换机（Switch）意为“开关”，是一种用于电（光）信号转发的网络设备，交换机它可以为接入交换机的任意两个网络节点提供独享的电信号通路。 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685589125.png" alt="1635685589125"></p>
+<p>目前，交换机品牌比较有名的是：华为、华三、思科、锐捷。  </p>
+<h6 id="（6）路由器"><a href="#（6）路由器" class="headerlink" title="（6）路由器"></a>（6）路由器</h6><p> 路由器（Router）又称网关设备（Gateway） 是用于连接多个逻辑上分开、相对独立的网络。  </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685598476.png" alt="1635685598476"></p>
+<h6 id="（7）拓扑结构图"><a href="#（7）拓扑结构图" class="headerlink" title="（7）拓扑结构图"></a>（7）拓扑结构图</h6><p>所谓“拓扑”就是把实体抽象成与其大小、形状无关的“点”，而把连接实体的线路抽象成“线”，进而以图的形式来表示这些点与线之间关系的方法，其目的在于研究这些点、线之间的相连关系。表示点和线之间关系的图被称为拓扑结构图。 </p>
+<p>常见的几种拓扑结构图： </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685620807.png" alt="1635685620807"></p>
+<h2 id="2）网络相关命令"><a href="#2）网络相关命令" class="headerlink" title="2）网络相关命令"></a>2）网络相关命令</h2><h6 id="（1）-ping-主机地址（ip地址、主机名、域名等）-作用：检测当前主机与目标主机之间的连通性"><a href="#（1）-ping-主机地址（ip地址、主机名、域名等）-作用：检测当前主机与目标主机之间的连通性" class="headerlink" title="（1）#ping  主机地址（ip地址、主机名、域名等）           作用：检测当前主机与目标主机之间的连通性"></a>（1）#ping  主机地址（ip地址、主机名、域名等）           作用：检测当前主机与目标主机之间的连通性</h6><p>该命令不是100%准确。可以跨平台。在线ping工具（ping.chainz.com） </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685641039.png" alt="1635685641039"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685648569.png" alt="1635685648569"></p>
+<h6 id="（2）netstat-作用：表示查看网络的连接信息"><a href="#（2）netstat-作用：表示查看网络的连接信息" class="headerlink" title="（2）netstat            作用：表示查看网络的连接信息"></a>（2）netstat            作用：表示查看网络的连接信息</h6><p>在tcp&#x2F;ip协议中也会用到 </p>
+<p>用法一：#netstat  -tnlp        </p>
+<p><strong>-t</strong>          <strong>作用：只列出tcp协议的连接</strong> </p>
+<p><strong>-n</strong>         <strong>作用：表示将地址从字母组合转化为ip地址，将协议转化为端口号显示</strong> </p>
+<p><strong>-l</strong>          <strong>作用：过滤出“start”列出其值为LISTEN的连接</strong> </p>
+<p><strong>-p</strong>         <strong>作用：显示发起连接进程的pid和name</strong> </p>
+<p>用法二：#netstat   -an </p>
+<p><strong>-a</strong>          <strong>作用：全部</strong> </p>
+<p><strong>-n</strong>          <strong>作用：将字母转化为数字</strong> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685659502.png" alt="1635685659502"></p>
+<h6 id="（3）-traceroute-主机地址（ip地址、主机名、域名等）-作用：查找当前主机与目标主机之间所有的网关（路由器）"><a href="#（3）-traceroute-主机地址（ip地址、主机名、域名等）-作用：查找当前主机与目标主机之间所有的网关（路由器）" class="headerlink" title="（3）#traceroute  主机地址（ip地址、主机名、域名等）            作用：查找当前主机与目标主机之间所有的网关（路由器）"></a>（3）#traceroute  主机地址（ip地址、主机名、域名等）            作用：查找当前主机与目标主机之间所有的网关（路由器）</h6><p>会给沿途的路由器发送icmp数据包，该命令不是100%准确，类似查看快递的跟踪路由。 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685671244.png" alt="1635685671244"></p>
+<p>windoes下也有类似命令（#tracert） </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685678950.png" alt="1635685678950"></p>
+<h6 id="（4）-arp-a-作用：查看本地缓存mac表"><a href="#（4）-arp-a-作用：查看本地缓存mac表" class="headerlink" title="（4）#arp  -a            作用：查看本地缓存mac表"></a>（4）#arp  -a            作用：查看本地缓存mac表</h6><p>地址解析协议，即ARP（Address Resolution Protocol），是根据IP地址获取物理地址的协议。该命令在windows下同样适用。 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685688687.png" alt="1635685688687"></p>
+<p> 当一个主机发送数据时，首先查看本机MAC地址缓存中有没有目标主机的MAC地址，如果有就使用缓存中的结果；如果没有，ARP协议就会发出一个广播包，该广播包要求查询目标主机IP地址对应的MAC地址，拥有该IP地址的主机会发出回应回应中包括了目标主机的MAC地址，这样发送方就得到了目标主机的MAC地址。如果目标主机不在本地子网中，则ARP解析到的MAC地址是默认网关的MAC地址。 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685699910.png" alt="1635685699910"></p>
+<p> <strong>#arp  -d  主机地址</strong>            <strong>作用：删除指定的缓存记录</strong> </p>
+<h6 id="（5）tcpdump-作用：抓取数据表"><a href="#（5）tcpdump-作用：抓取数据表" class="headerlink" title="（5）tcpdump            作用：抓取数据表"></a>（5）tcpdump            作用：抓取数据表</h6><p>用法一：#tcpdump  port  端口 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685710710.png" alt="1635685710710"></p>
+<p>用法二：#tcpdump  host  地址 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685720857.png" alt="1635685720857"></p>
+<p>用法三：#tcpdump  -i  网卡设备 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685729558.png" alt="1635685729558"></p>
+<h2 id="3）项目上线流程（非运维方向，没有详细记录）"><a href="#3）项目上线流程（非运维方向，没有详细记录）" class="headerlink" title="3）项目上线流程（非运维方向，没有详细记录）"></a>3）项目上线流程（非运维方向，没有详细记录）</h2><h6 id="（1）服务器选配购买"><a href="#（1）服务器选配购买" class="headerlink" title="（1）服务器选配购买"></a>（1）服务器选配购买</h6><p>必须是外网服务器。一般服务器有两种情况：购买真实服务器（成本高），购买云服务器（常选）。 </p>
+<p>云服务器厂商：阿里云、腾讯云、知道创宇（加速乐）、华为云、盛大云、新浪云、亚马逊云等。 </p>
+<p>阿里云官网：<a target="_blank" rel="noopener" href="http://www.aliyun.com(购买流程省略)/">http://www.aliyun.com（购买流程省略）</a> </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685743664.png" alt="1635685743664"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685760440.png" alt="1635685760440"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685772078.png" alt="1635685772078"></p>
+<h6 id="（2）域名购买"><a href="#（2）域名购买" class="headerlink" title="（2）域名购买"></a>（2）域名购买</h6><p>同样在阿里云购买。需要先查看是否能够注册。（购买流程省略） </p>
+<h6 id="（3）域名备案"><a href="#（3）域名备案" class="headerlink" title="（3）域名备案"></a>（3）域名备案</h6><p> 备案：当申请域名的人要想在国内使用域名，则需要向当地的通信管理局（省级）去申请报备。 （省略） </p>
+<h6 id="（4）域名解析"><a href="#（4）域名解析" class="headerlink" title="（4）域名解析"></a>（4）域名解析</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685786540.png" alt="1635685786540"></p>
+<h6 id="（5）配置生产环境"><a href="#（5）配置生产环境" class="headerlink" title="（5）配置生产环境"></a>（5）配置生产环境</h6><h6 id="（6）上传代码"><a href="#（6）上传代码" class="headerlink" title="（6）上传代码"></a>（6）上传代码</h6><p>使用上传工具。 </p>
+<h1 id="十、shell基础"><a href="#十、shell基础" class="headerlink" title="十、shell基础"></a>十、shell基础</h1><h2 id="1）关于shell"><a href="#1）关于shell" class="headerlink" title="1）关于shell"></a>1）关于shell</h2><h6 id="（1）什么是shell"><a href="#（1）什么是shell" class="headerlink" title="（1）什么是shell"></a>（1）什么是shell</h6><p>Shell （外壳）是一个用C语言编写的程序，它是用户使用Linux 的桥梁。Shell 既是一种命令语言，又是一种程序设计语言。 </p>
+<p>Shell是指一种应用程序，这个应用程序提供了一个界面，用户通过这个界面访问操作系统 </p>
+<p>内核的服务。 </p>
+<h6 id="（2）什么是脚本"><a href="#（2）什么是脚本" class="headerlink" title="（2）什么是脚本"></a>（2）什么是脚本</h6><p>脚本简单地说就是一条条的文字命令，这些文字命令是可以看到的（如可以用记事本打开查看、编辑）。常见的脚本：JavaScript, VBScript，ASP, JSP, PHP, SQL, Perl, Shell, python, Ruby, JavaFX,Lua等。 </p>
+<h6 id="（3）为什么要学习和使用shell"><a href="#（3）为什么要学习和使用shell" class="headerlink" title="（3）为什么要学习和使用shell?"></a>（3）为什么要学习和使用shell?</h6><p>程序开发的效率非常高，依赖于功能强大的命令可以迅速地完成开发任务 </p>
+<h6 id="（4）-常见的shell种类"><a href="#（4）-常见的shell种类" class="headerlink" title="（4） 常见的shell种类?"></a>（4） 常见的shell种类?</h6><p>在linux中有很多类型的shell,不同的shell具备不同的功能，shell还决定了脚本中函数的语法，Linux 中默认的shell是&#x2F;bin&#x2F;bash,流行的shell有ash、bash、 ksh、csh、 zsh等，不同的shell都有自己的特点以及用途。 </p>
+<p>①csh：c shell 使用的是“类C”语法，csh是具有C语言风格的一-种shell, 其内部命令有52个，较为庞大。目前使用的并不多，已经被&#x2F;bin&#x2F;tcsh 所取代。 </p>
+<p>②ksh：Korn shell的语法与Bourne shell 相同，同时具备了C shell的易用特点。许多安装脚本都使用ksh。ksh有42条内部命令，与bash有一定的限制性。 </p>
+<p>③tcsh：是csh的增强版，与C shell完全兼容。 </p>
+<p>④sh：是一个快捷方式，已经被&#x2F;bin&#x2F;bash 所取代。 </p>
+<p>⑤nologin：指用户不能登录 </p>
+<p>⑥zsh：目前Linux里最庞大的一种shell：zsh。 它有84个内部命令，使用起来也比较复杂。一般情况下，不会使用该shell. </p>
+<p>⑦bash：大多数Linux系统默认使用的shell, bash shell是Bourne shell的一个免费版本，它是早的Unix shell, bash还有一个特点，可以通过help命令来查看帮助。包含的功能几乎可以涵盖shell所具有的功能，所以一般的shell脚本都会指定它为执行路径。 </p>
+<h2 id="2）shell入门"><a href="#2）shell入门" class="headerlink" title="2）shell入门"></a>2）shell入门</h2><h6 id="（1）编写规范"><a href="#（1）编写规范" class="headerlink" title="（1）编写规范"></a>（1）编写规范</h6><p>代码规范：#！&#x2F;bin&#x2F;bash       作用：指定告知系统当前这个脚本要使用的shell解释器 </p>
+<p>Shell  相关指令 </p>
+<p>文件命名规范：文件名.sh        .sh是linux下bash shell的默认后缀 </p>
+<h6 id="（2）使用流程"><a href="#（2）使用流程" class="headerlink" title="（2）使用流程"></a>（2）使用流程</h6><p>①创建一个.sh文件 </p>
+<p>②编写shell代码 </p>
+<p>③执行shell脚本（脚本必须有执行权限） </p>
+<h6 id="（3）案例"><a href="#（3）案例" class="headerlink" title="（3）案例"></a>（3）案例</h6><p> Shell脚本分为简单的写法（简单命令的堆积）和复杂写法（程序的设计） </p>
+<p>①创建test.sh，实现shell脚本程序，输出hello world </p>
+<p>输出命令：echo，输出中有字母和符号（不包含变量）时需要用引号包含 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685816821.png" alt="1635685816821"></p>
+<p>注意，这里在运行时一定要写成.&#x2F;helloworld.sh，而不是helloworld.sh, 运行其它二进制的程序也样，直接写helloworld.sh，Linux系统会去PATH (环境变量)里寻找有没有叫 helloworld.sh 的，而只有&#x2F;bin, &#x2F;sbin, &#x2F;usr&#x2F;bin, &#x2F;usr&#x2F;sbin 等在PATH 里，你的当前目录通常不在PATH里，所以写成helloworld.sh 是会找不到命令的，要用.&#x2F;helloworld.sh 告诉系统说，就在当前目录找  </p>
+<p>②用root账户创建并执行test.sh，实现创建一个shelltest用户，并在其家目录中新建文件try.html </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685877294.png" alt="1635685877294"></p>
+<h2 id="3）shell进阶"><a href="#3）shell进阶" class="headerlink" title="3）shell进阶"></a>3）shell进阶</h2><h6 id="（1）变量"><a href="#（1）变量" class="headerlink" title="（1）变量"></a>（1）变量</h6><p>①什么是变量 </p>
+<p> 数据可以发生改变就是变量。在一个脚本周期内，其值可以发生改变的量就是变量。 </p>
+<p>一个脚本周期我们可以简单的理解为当前的shell文件 </p>
+<p>变量是shell中不可或缺的一部分， 也是最基础、最重要的组成部分。  </p>
+<p>②变量的定义与使用 </p>
+<p><strong>先定义后使用</strong> </p>
+<p>定义形如：class name&#x3D;“yunwei” </p>
+<p>使用形如：echo $class name </p>
+<p>变量就是由2部分组成，一个是变量名，另外一部分是变量的值 </p>
+<p>变量名和变量值是使用和被使用关系；我们的变量名来使用变量值 </p>
+<p>在使用变量的时候一定需要在变量名前面添加一-个$符号 </p>
+<p><strong>变量名的规范</strong> </p>
+<p>注意，变量名后面的等号左右不能有空格，这可能和你熟悉的所有编程语言都不一样。同时，变量名的命名须遵循如下规则： </p>
+<p>命名只能使用英文字母，数字和下划线，首个字符不能以数字开头。 </p>
+<p>中间不能有空格，可以使用下划线“_”。 </p>
+<p>不能使用标点符号。 </p>
+<p>不能使用bash里的关键字（可用help命令查看保留关键字）。 </p>
+<p>案例一：使用变量的形式修改helloworld.sh </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685893993.png" alt="1635685893993"></p>
+<p>关于单双引号的问题: </p>
+<p>双引号能够识别变量；单引号是不能识别变量，只会原样输出  </p>
+<p>双引号能够实现转义（类似于“*”）；只会原样输出，单引号是不能转义的 </p>
+<p>案例二：定义一个变量，输出当前时间，要求格式“年-月-日  时：分：秒” </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685905569.png" alt="1635685905569"></p>
+<p>反引号：esc下方的健。当在脚本中需要执行一些指令并且将执行的结果赋给变量的时候需要使用“反引号”。  </p>
+<p>③只读变量 </p>
+<p>只能被读不能被修改：<strong>语法：****readonly  变量名</strong> </p>
+<p>案例：定义变量a并且其值为10，随后设置其为只读变量，再去尝试重新赋值 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685954043.png" alt="1635685954043"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685962735.png" alt="1635685962735"></p>
+<p>④接受用户输入 </p>
+<p><strong>语法：****read  -p  提示信息  变量名</strong> </p>
+<p>案例：编写脚本test3.sh，要求执行之后提示用户输入文件的名称（路径），然后自动为用户创建该文件 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685973162.png" alt="1635685973162"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685981541.png" alt="1635685981541"></p>
+<p>⑤删除变量 </p>
+<p><strong>语法：****unset  变量名</strong> </p>
+<p>案例：定义变量b&#x3D;20，再输出b的值，然后在删除b，最后输出下b </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635685992008.png" alt="1635685992008"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635686000690.png" alt="1635686000690"></p>
+<h6 id="（2）条件判断语句"><a href="#（2）条件判断语句" class="headerlink" title="（2）条件判断语句"></a>（2）条件判断语句</h6><p><strong>语法1：****if  [condition];then  command;fi      下同</strong> </p>
+<p><strong>if condition</strong> </p>
+<p><strong>then</strong> </p>
+<p><strong>command1</strong> </p>
+<p><strong>command2</strong> </p>
+<p><strong>……</strong> </p>
+<p><strong>fi</strong> </p>
+<p><strong>语法2：</strong> </p>
+<p><strong>if condition</strong> </p>
+<p><strong>then</strong> </p>
+<p><strong>command1</strong> </p>
+<p><strong>command2</strong> </p>
+<p><strong>……</strong> </p>
+<p><strong>else</strong> </p>
+<p><strong>command</strong> </p>
+<p><strong>……</strong> </p>
+<p><strong>fi</strong> </p>
+<p><strong>语法3：</strong> </p>
+<p><strong>if condition1</strong> </p>
+<p><strong>then</strong> </p>
+<p><strong>command1</strong> </p>
+<p><strong>……</strong> </p>
+<p><strong>elif  condition2</strong> </p>
+<p><strong>then</strong> </p>
+<p><strong>command2</strong> </p>
+<p><strong>else</strong> </p>
+<p><strong>command</strong> </p>
+<p><strong>……</strong> </p>
+<p><strong>fi</strong> </p>
+<h6 id="（3）运算符"><a href="#（3）运算符" class="headerlink" title="（3）运算符"></a>（3）运算符</h6><p>①算数运算符 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635686019380.png" alt="1635686019380"></p>
+<p> 注意：条件表达式要放在方括号之间，并且要有空格，例如： [$a&#x3D;&#x3D;$b]是错误的，必须写成[$a  &#x3D;&#x3D;  $b]。 </p>
+<p>多原生bash不支持简单的数学运算,但是可以通过其他命令来实现，例如awk和expr , expr最常用。  </p>
+<p> expr是一款表达式计算工具，使用它能完成表达式的求值操作。例如，两个数相加（注意使用的是反引号、而不是单引号）： </p>
+<p>#!&#x2F;bin&#x2F;bash </p>
+<p>val&#x3D;<code>expr 2  +  2</code> </p>
+<p>echo “两数之和为: $val”  </p>
+<p>两点注意：表达式和运算符之间整有空格，例如2+2是不对的，必须写成2  +  2，这与我们熟悉的大多数编程语言不一样；完整的表达式要被&#96;&#96;包含，注意这个字符不是常用的单引号，在Esc 键下边。  </p>
+<p>案例：加减乘除 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745273929.png" alt="1635745273929"></p>
+<p>②关系运算符 </p>
+<p> 关系运算符只支持数字，不支持字符串，除非字符串的值是数字。  </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745289181.png" alt="1635745289181"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745300492.png" alt="1635745300492"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745311789.png" alt="1635745311789"></p>
+<p>③逻辑运算符 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745321922.png" alt="1635745321922"></p>
+<p>或运算：有真则真 </p>
+<p>与运算：有假则假 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745330564.png" alt="1635745330564"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745340945.png" alt="1635745340945"></p>
+<p>④字符串运算符 </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745351619.png" alt="1635745351619"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745359610.png" alt="1635745359610"></p>
+<p>⑤文件测试运算符 </p>
+<p> 文件测试运算符用于检测Unix&#x2F;Linux 文件的各种属性。  </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745375670.png" alt="1635745375670"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745388114.png" alt="1635745388114"></p>
+<h6 id="（4）shell脚本附带选项"><a href="#（4）shell脚本附带选项" class="headerlink" title="（4）shell脚本附带选项"></a>（4）shell脚本附带选项</h6><p>问题描述：在linux shell中如何处理tail  -10  access.log这样的命令行选项? </p>
+<p>步骤： </p>
+<p>调用tail 指令； </p>
+<p>系内把后续选项传递给tail； </p>
+<p>Tail先去打开指定的文件； </p>
+<p>取出最后10行； </p>
+<p>问题：自己写的shell是否也可以像内置命令一样传递一些选项呢？ </p>
+<p>答：可以。 </p>
+<p> 传递： </p>
+<p>#.&#x2F;test.sh   a b c </p>
+<p>接收： </p>
+<p>在脚本中可以用“$1”来表示a，“$2”来表示b，以此类推。. </p>
+<p>接收可以用“$”加上选项对应的序号即可。  </p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745406348.png" alt="1635745406348"></p>
+<p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745414339.png" alt="1635745414339"></p>
+<p>同时题目中要求是指令，所以可以再去添加个别名:</p>
+<h1 id="十一、mysql基础"><a href="#十一、mysql基础" class="headerlink" title="十一、mysql基础"></a>十一、mysql基础</h1><h2 id="1）关于数据库"><a href="#1）关于数据库" class="headerlink" title="1）关于数据库"></a>1）关于数据库</h2><h6 id="（1）什么是数据库"><a href="#（1）什么是数据库" class="headerlink" title="（1）什么是数据库"></a>（1）什么是数据库</h6><p><img src="C:\Users\管理员\AppData\Roaming\Typora\typora-user-images\1635745439840.png" alt="1635745439840"></p>
+<h6 id="（2）mysql简介"><a href="#（2）mysql简介" class="headerlink" title="（2）mysql简介"></a>（2）mysql简介</h6><p>MySQL是一个关系型数据库管理系统，由瑞典MySQL AB公司开发，2008 年被Sun公司收购，目前属于Oracle 旗下产品。MySQL是最流行的数据库管理系统之一，在WEB应用方面，MySQL是最好的RDBMS (Relational Database Management System，关系数据库管理系统)应用软件。 其和php是黄金搭档(LAMP&#x2F;LNMP)。  </p>
+<h6 id="（3）常见的其他数据库软件"><a href="#（3）常见的其他数据库软件" class="headerlink" title="（3）常见的其他数据库软件"></a>（3）常见的其他数据库软件</h6><p>oracle（重量级数据库）、ms sql server（微软）、access、postgrasql、db2、mariadb（mysql） </p>
+<h2 id="2）mysql的安装与初始化"><a href="#2）mysql的安装与初始化" class="headerlink" title="2）mysql的安装与初始化"></a>2）mysql的安装与初始化</h2><p>可百度 </p>
+<p>如果报错，可点链接查看如何解决<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39946015/article/details/111086184">https://blog.csdn.net/qq_39946015/article/details/111086184</a> </p>
+<p>没有找到  centos6.5下解决yum install mysql-server没有可用包  的解决办法 </p>
+<p>想要更进一步的了解linux可以看这篇文档，真的超详细<a target="_blank" rel="noopener" href="http://c.biancheng.net/linux_tutorial/">http://c.biancheng.net/linux_tutorial/</a> </p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1>
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+        <a class="extend prev post-prev" href="/2023/01/29/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_2/">prev</a>
+    
+
+    
+    <p>last update time 2023-08-05</p>
+    
+    
+        <a class="extend next post-next" href="/2023/01/20/Java%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E8%AF%A6%E8%A7%A3/">next</a>
+    
+    </div>
+
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © 洪志鑫 2022 - 2023
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>

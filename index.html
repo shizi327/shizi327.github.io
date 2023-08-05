@@ -1,332 +1,403 @@
 <!DOCTYPE html>
+
 <html lang="en">
-
-<!-- Head tag -->
 <head>
-
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
-    <!--Description-->
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title> [ 洪志鑫技术博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
     
-
+      <link rel="stylesheet" href="/css/iLiKE.css">
     
-
-    <!--Author-->
-    
-        <meta name="author" content="Han-Xinlong"/>
-    
-
-    <!--Open Graph Title-->
-    
-        <meta property="og:title" content="韩新龙的学习笔记"/>
-    
-
-    <!--Open Graph Description-->
-    
-
-    <!--Open Graph Site Name-->
-        <meta property="og:site_name" content="韩新龙的学习笔记"/>
-
-    <!--Type page-->
-    
-        <meta property="og:type" content="website"/>
-    
-
-    <!--Page Cover-->
-    
-    
-        <meta property="og:image" content="http://example.comimg/home-bg.jpg"/>
-    
-
-        <meta name="twitter:card" content="summary_large_image"/>
-
-    
-
-    
-        <meta name="twitter:image" content="http://example.comimg/home-bg.jpg"/>
-    
-
-    <!-- Title -->
-    
-    <title>韩新龙的学习笔记</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-
-    <!-- Custom CSS -->
-    
-<link rel="stylesheet" href="/css/style.css">
-
-
-    <!-- Custom Fonts -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- Gallery -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
-
-    <!-- Google Analytics -->
-    
-
-
-    <!-- favicon -->
-    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
 
 <meta name="generator" content="Hexo 6.3.0"></head>
-
-
 <body>
-
-    <!-- Menu -->
-    <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">韩新龙</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                
-                    <li>
-                        <a href="/">
-                            
-                                Home
-                            
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a href="/archives">
-                            
-                                Archives
-                            
-                        </a>
-                    </li>
-                
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/favicon.ico"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
     </div>
-    <!-- /.container -->
-</nav>
-
-    <!-- Main Content -->
-    <!-- Page Header -->
-<!-- Set your background image for this header in the theme's configuration: index_cover -->
-<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+</div>
+    </div>
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-                    <h1>韩新龙的学习笔记</h1>
-                    <hr class="small">
-                    <span class="subheading"></span>
-                </div>
-            </div>
+        
+
+
+
+  <div class="article">
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2023/02/21/Java8 Stream详解/">
+            JDK8 Stream 流失查询详解
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>JDK8 Stream详解概念
+Stream是Java8 API的新成员，它允许以声明性方式处理数据集合 。
+
+特点
+（1）代码简洁：函数式编程写出的代码简洁且意图明确，使用stream接口让你从此告别for循环。 
+（2）多核友好：Java函数式编程使得编写并行程序从未如此简单，你需要的全部就是调...</p>
+          
         </div>
-    </div>
-</header>
+        <div class="atricle-item-time">
+          
+            <span>
+              2023-02-21
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2023/01/29/学习笔记_2/">
+            Docker 学习笔记
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Docker 学习笔记学习大纲
+Docker概述
+Docker安装
 
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            
-                <div class="post-preview">
-    <a href="/2023/01/03/java虚拟机/">
-        <h2 class="post-title">
-            JVM 学习笔记
-        </h2>
-        
-    </a>
-    <p class="post-meta">
-        <!-- Date and Author -->
-        
-        2023-01-03
-    </p>
-</div>
-<hr>
-            
-                <div class="post-preview">
-    <a href="/2022/11/07/Redis/">
-        <h2 class="post-title">
-            Redis 学习笔记
-        </h2>
-        
-    </a>
-    <p class="post-meta">
-        <!-- Date and Author -->
-        
-        2022-11-07
-    </p>
-</div>
-<hr>
-            
-                <div class="post-preview">
-    <a href="/2022/08/01/设计模式/">
-        <h2 class="post-title">
-            设计模式学习笔记
-        </h2>
-        
-    </a>
-    <p class="post-meta">
-        <!-- Date and Author -->
-        
-        2022-08-01
-    </p>
-</div>
-<hr>
-            
-                <div class="post-preview">
-    <a href="/2022/07/03/简述java内存模型（JMM）/">
-        <h2 class="post-title">
-            Java 内存模型
-        </h2>
-        
-    </a>
-    <p class="post-meta">
-        <!-- Date and Author -->
-        
-        2022-07-03
-    </p>
-</div>
-<hr>
-            
-                <div class="post-preview">
-    <a href="/2022/07/03/数据结构/">
-        <h2 class="post-title">
-            数据结构学习笔记
-        </h2>
-        
-    </a>
-    <p class="post-meta">
-        <!-- Date and Author -->
-        
-        2022-07-03
-    </p>
-</div>
-<hr>
-            
-                <div class="post-preview">
-    <a href="/2022/06/02/计算机网络/">
-        <h2 class="post-title">
-            计算机网络学习笔记
-        </h2>
-        
-    </a>
-    <p class="post-meta">
-        <!-- Date and Author -->
-        
-        2022-06-02
-    </p>
-</div>
-<hr>
-            
-                <div class="post-preview">
-    <a href="/2022/05/29/操作系统/">
-        <h2 class="post-title">
-            操作系统学习笔记
-        </h2>
-        
-    </a>
-    <p class="post-meta">
-        <!-- Date and Author -->
-        
-        2022-05-29
-    </p>
-</div>
-<hr>
-            
-                <div class="post-preview">
-    <a href="/2022/04/03/Java基础/">
-        <h2 class="post-title">
-            Java 基础学习笔记
-        </h2>
-        
-    </a>
-    <p class="post-meta">
-        <!-- Date and Author -->
-        
-        2022-04-03
-    </p>
-</div>
-<hr>
-            
+Docker命令
 
-            <ul class="pager">
+镜像命令
+镜像命令
+操作命令
+…
+
+
+Docker镜像
+
+镜像数据卷
+
+DockerFile
+
+Docker网络原理
+
+IDEA整合Docker
+
+Docker Compose
+
+Docker Swarm
+
+C...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2023-01-29
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2023/01/25/Linux总结/">
+            Linux 学习笔记
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>linux下一切皆是文件。 
+目录介绍 
+bin：binary 二进制文件，文件都是可以被运行的 
+dev：主要存放外接设备，例如：其他硬盘、U盘、移动硬盘等，在其中的设备不能直接被使用，需要   挂载 
+etc：主要存放一些配置文件 
+home：表示“家”，表示除了root用户以外其他用户的家目录...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2023-01-25
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2023/01/20/Java高并发编程详解/">
+            Java 高并发编程详解
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Java 高并发编程详解第一部分 多线程基础第一章 快速认识线程尝试并行运行123456789101112131415161718192021222324252627282930313233package chapter1;import java.util.concurrent.TimeUnit;p...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2023-01-20
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2022/10/25/Spring Boot/">
+            Spring Boot 入门学习
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>一、Spring Boot 入门1、Spring Boot 简介
+简化Spring应用开发的一个框架；
+整个Spring技术栈的一个大整合；
+J2EE开发的一站式解决方案；
+
+2、微服务2014，martin fowler
+微服务：架构风格（服务微化）
+一个应用应该是一组小型服务；可以通过HTTP的...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2022-10-25
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2022/10/10/Spring入门笔记/">
+            Spring入门学习
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Spring入门学习首先认识下Spring的结构
+
+然后我们皆可以写我们的demo了
+我们的Bean类对于bean的理解，希望大家是把他看成Object对象，他可以是任何对象，甚至是接口，甚至是抽象方法，当然，具体用法大家在以后的使用中会有所认识的；
+写一个简单的bean类
+123456789101...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2022-10-10
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2022/04/25/Redis学习笔记/">
+            Redis 缓存学习
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Nosql概述为什么使用Nosql
+网站80%的时间都在读数据，每一次都要读数据非常麻烦，我们希望减轻数据库的压力，就出现了缓存
+
+&amp;#x3D;&amp;#x3D;发展历程如下&amp;#x3D;&amp;#x3D;
+
+**1.**首先出现了：Memcached+Mysql+垂直拆分（读写分离）
+
+
+
+**2.**分库分表...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2022-04-25
+            </span>
+          
+        </div>
+      </div>
+    
+  </div>
+
+
+
+    <div class="pagenator">
+    
+        <a class="extend prev-none">prev</a>
     
     
-</ul>
-        </div>
-    </div>
+
+    
+        
+            <span class="extend page-item page-item-select">1</span>
+        
+        
+    
+    
+    
+        <a class="extend next-none">next</a>
+    
+    
 </div>
 
 
-
-    <!-- Footer -->
-    <hr />
-
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                    
-
-                    
-
-                    
-
-                    
-
-                    
-
-                    
-                </ul>
-                <p class="copyright text-muted">&copy; 2023 Han-Xinlong<br></p>
-                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
-            </div>
-        </div>
     </div>
-</footer>
-
-
-    <!-- After footer scripts -->
-    
-<!-- jQuery -->
-<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-
-<!-- Bootstrap -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-<!-- Gallery -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
-
-<!-- Disqus Comments -->
-
-
-
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © 洪志鑫 2022 - 2023
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
 </body>
-
 </html>

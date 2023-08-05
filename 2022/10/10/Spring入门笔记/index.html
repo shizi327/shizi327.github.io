@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>Spring入门学习 [ 洪志鑫技术博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/favicon.ico"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">Spring入门学习</h1>
+<article class="post markdown-style">
+  <h2 id="Spring入门学习"><a href="#Spring入门学习" class="headerlink" title="Spring入门学习"></a>Spring入门学习</h2><p>首先认识下Spring的结构</p>
+<p><img src="http://www.ibm.com/developerworks/cn/java/j-lo-spring-principle/image001.gif" alt="架构图"></p>
+<p>然后我们皆可以写我们的demo了</p>
+<h3 id="我们的Bean类"><a href="#我们的Bean类" class="headerlink" title="我们的Bean类"></a>我们的Bean类</h3><p>对于bean的理解，希望大家是把他看成Object对象，他可以是任何对象，甚至是接口，甚至是抽象方法，当然，具体用法大家在以后的使用中会有所认识的；</p>
+<p>写一个简单的bean类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mybatis.study.start.bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> lombok.Setter;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@program</span>: test</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span>: helloworld</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>: cutedog</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span>: 2019-02-18 22:48</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">@Setter</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloWorld</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">pritlnHello</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Spring 3：Hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="写我们的配置文件"><a href="#写我们的配置文件" class="headerlink" title="写我们的配置文件"></a>写我们的配置文件</h4><p>一般都是application.xml文件，放在idea的resource目录下，是一个bean注册的配置文件</p>
+<p>内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">&quot;http://www.springframework.org/schema/aop&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:tx</span>=<span class="string">&quot;http://www.springframework.org/schema/tx&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="string"><span class="tag">            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd</span></span></span><br><span class="line"><span class="string"><span class="tag">            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;helloBean&quot;</span> <span class="attr">class</span>=<span class="string">&quot;mybatis.study.start.bean.HelloWorld&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;name&quot;</span> <span class="attr">value</span>=<span class="string">&quot;Yiibai&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+<p>list<provin></p>
+<p>Map&lt;city,provincecitymysqq</p>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+        <a class="extend prev post-prev" href="/2022/10/25/Spring%20Boot/">prev</a>
+    
+
+    
+    <p>last update time 2023-08-05</p>
+    
+    
+        <a class="extend next post-next" href="/2022/04/25/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">next</a>
+    
+    </div>
+
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © 洪志鑫 2022 - 2023
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>

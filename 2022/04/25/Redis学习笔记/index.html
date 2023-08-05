@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>Redis 缓存学习 [ 洪志鑫技术博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/favicon.ico"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">Redis 缓存学习</h1>
+<article class="post markdown-style">
+  <h1 id="Nosql概述"><a href="#Nosql概述" class="headerlink" title="Nosql概述"></a>Nosql概述</h1><h2 id="为什么使用Nosql"><a href="#为什么使用Nosql" class="headerlink" title="为什么使用Nosql"></a>为什么使用Nosql</h2><blockquote>
+<p>网站80%的时间都在读数据，每一次都要读数据非常麻烦，我们希望减轻数据库的压力，就出现了缓存</p>
+</blockquote>
+<p>&#x3D;&#x3D;发展历程如下&#x3D;&#x3D;</p>
+<blockquote>
+<p>**1.**首先出现了：Memcached+Mysql+垂直拆分（读写分离）</p>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226091403407.png" alt="image-20210226091403407" style="zoom:50%;" />
+</blockquote>
+<blockquote>
+<p>**2.**分库分表+水平拆分+Mysql集群+cache</p>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226091634594.png" alt="image-20210226091634594" style="zoom:67%;" />
+</blockquote>
+<blockquote>
+<p>**3.**当数据量很多变化很快时，mysql等关系数据库就不够了，当前企业互联网项目</p>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226093750278.png" alt="image-20210226093750278" style="zoom:67%;" />
+</blockquote>
+<blockquote>
+<p>为什么使用Nosql</p>
+</blockquote>
+<p>用户个人信息，地理位置，社交网络，用户产生数据，用户日志爆发性增长，Nosql可以很好处理以上问题</p>
+<h2 id="什么是Nosql"><a href="#什么是Nosql" class="headerlink" title="什么是Nosql"></a>什么是Nosql</h2><blockquote>
+<p>Not only sql  泛指非关系数据库</p>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226103451337.png" alt="image-20210226103451337" style="zoom:50%;" />
+</blockquote>
+<h3 id="简单的商品页所包含技术"><a href="#简单的商品页所包含技术" class="headerlink" title="简单的商品页所包含技术"></a>简单的商品页所包含技术</h3><blockquote>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226105713634.png" alt="image-20210226105713634" style="zoom:67%;" />
+
+<p><img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226105900941.png" alt="image-20210226105900941" style="zoom:80%;" />w</p>
+</blockquote>
+<h3 id="大型互联网公司遇到问题"><a href="#大型互联网公司遇到问题" class="headerlink" title="大型互联网公司遇到问题"></a><strong>大型互联网公司遇到问题</strong></h3><p>数据类型太多</p>
+<p>数据源太多，经常重构</p>
+<p>数据要改造，大面积改造</p>
+<p><strong>解决问题</strong></p>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226110435905.png" alt="image-20210226110435905" style="zoom: 50%;" />
+
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226110619747.png" alt="image-20210226110619747" style="zoom: 67%;" />
+
+<h2 id="Nosql的四大分类"><a href="#Nosql的四大分类" class="headerlink" title="Nosql的四大分类"></a>Nosql的四大分类</h2><img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226112548371.png" alt="image-20210226112548371" style="zoom: 50%;" />
+
+<p>​                         <strong>图关系数据库（存关系的）</strong>Neo4j  InfoGrid</p>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226112817775.png" alt="image-20210226112817775" style="zoom: 50%;" />
+
+<h1 id="Redis入门"><a href="#Redis入门" class="headerlink" title="Redis入门"></a>Redis入门</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>Redis(remote Dictionary server): 远程字典服务</p>
+</blockquote>
+<blockquote>
+<p>redis能干什么?</p>
+</blockquote>
+<p><img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226135933181.png" alt="image-20210226135933181" style="zoom:67%;" />\</p>
+<blockquote>
+<p>特性</p>
+</blockquote>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226140018940.png" alt="image-20210226140018940" style="zoom:67%; margin-left:1px"/>
+
+<blockquote>
+<p>学习中需要用的东西</p>
+</blockquote>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226140642292.png" alt="image-20210226140642292" style="zoom:50%; margin-left:1px;" />
+
+<h2 id="Linux下安装Redis"><a href="#Linux下安装Redis" class="headerlink" title="Linux下安装Redis"></a>Linux下安装Redis</h2><p>1.在官网下载好文件后传到linux下</p>
+<p>2.解压文件  tar -zxvf filename.tar.gz  <a target="_blank" rel="noopener" href="https://www.cnblogs.com/balllyh/p/11223013.html">解压命令介绍</a></p>
+<p>​					z: gzip 压缩包格式</p>
+<p>​					x: extract 解压</p>
+<p>​					v:verbose 详细信息</p>
+<p>​					f :file 文件</p>
+<p>3.解压后可以看到配置文件</p>
+<p><img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226151037080.png" alt="image-20210226151037080"></p>
+<p>4.基本的环境安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++ </span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>5.redis默认安装目录&#x3D;&#x3D;&#x2F;usr&#x2F;local&#x2F;bin&#x3D;&#x3D;</p>
+<p><img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226152042321.png" alt="image-20210226152042321"></p>
+<ol start="6">
+<li>将redis下的配置文件复制一份到安装目录下</li>
+</ol>
+<p>7.redis默认不是后台启动,修改配置文件 daemonize no改为yes</p>
+<p>8.启动服务  redis-server zbconfig&#x2F;redis.conf</p>
+<ol start="9">
+<li>redis-cli -p 6379  进入客户端  shutdown退出</li>
+</ol>
+<h2 id="测试性能"><a href="#测试性能" class="headerlink" title="测试性能"></a>测试性能</h2><p>redis-benchmark  制定主机,并发,请求进行测试</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><blockquote>
+<p>redis默认16个数据库</p>
+</blockquote>
+<p>默认使用第0个数据库，可以使用select进行切换数据库（select 3）</p>
+<p><code>DBSIZE</code> 查看数据库大小</p>
+<p><code>key *</code>  查看当前数据库所有的key</p>
+<p><code>flushdb</code> 清空当前数据库</p>
+<p><code>flushall</code> 清空所有数据库</p>
+<blockquote>
+<p>redis是单线程的<strong>单进程单线程</strong>   <a target="_blank" rel="noopener" href="https://blog.csdn.net/chenyao1994/article/details/79491337">解释为什么单线程这么块</a></p>
+</blockquote>
+<p><img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210226171220239.png" alt="image-20210226171220239"></p>
+<h1 id="五大数据类型"><a href="#五大数据类型" class="headerlink" title="五大数据类型"></a>五大数据类型</h1><blockquote>
+<p>默认使用第0个数据库，可以使用select进行切换数据库（select 3）</p>
+<p><code>DBSIZE</code> 查看数据库大小</p>
+<p><code>key *</code>  查看当前数据库所有的key</p>
+<p><code>flushdb</code> 清空当前数据库</p>
+<p><code>flushall</code> 清空所有数据库</p>
+</blockquote>
+<h2 id="Redis-key"><a href="#Redis-key" class="headerlink" title="Redis-key"></a>Redis-key</h2><blockquote>
+<p>基本的一些命令</p>
+<p>exist  key  判断当前key是否存在  存在返回1  不存在返回0</p>
+<p>expire key 10  设置当前key十秒钟过期</p>
+<p>ttl key   查看当前key剩余过期时间</p>
+<p>move key  移除当前key</p>
+<p>type key   查看当前key所存储的类型</p>
+<p>&#x3D;&#x3D;遇到不会的在官网查看&#x3D;&#x3D;</p>
+</blockquote>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><p>String类似的应用场景：value除了是字符串还可以是数组</p>
+<ul>
+<li>计数器</li>
+<li>统计多单元的数量（关注，浏览）   uid:8888:follow 0      新增关注incr key即可</li>
+<li>粉丝数</li>
+<li>对象缓存存储</li>
+</ul>
+<blockquote>
+<p>set key value</p>
+<p>get key</p>
+<p>exists key</p>
+<p>keys *</p>
+<p>append key  “~~~”   # 如果当前key不存在，就相当于set key </p>
+<p>strlen key</p>
+<hr>
+<p>incr key     # 自增1，用于浏览量，播放量       incrby key 10   自增10</p>
+<p>decr key                                                               decrby key ~</p>
+<hr>
+<p>字符串</p>
+<p>getrange key start end    #字符串截取       getrange key 0 -1  # 获取所有字符串</p>
+<p>setrange key start value   #替换指定位置的字符串</p>
+<hr>
+<p>setex (set with expire)    # 设置过期时间</p>
+<p>setnx （set if not exist)  # 如果不存在就设置  （在分布式锁中常常使用）</p>
+<hr>
+<p>批量设置，批量获取</p>
+<p>mset  k1 v1 k2 v2 ……                    msetnx (原子性 一个存在就设置不成功)</p>
+<p>mget  k1 k2 k3</p>
+<hr>
+<p>对象</p>
+<p>set user:1 {name:zhangsan,age:3}     #设置一个user:1对象  值为json字符对象</p>
+<p>&#x3D;&#x3D;key的巧妙设置&#x3D;&#x3D;(不用转化为json后再获取)</p>
+<p>mset user:1:name zhangsan user:1:age 10 user:1:view 1000</p>
+<p>mget user:1:name user:1:age user:1:view</p>
+<hr>
+<p>getset    #先get后set</p>
+<p>​	如果不存在先返回nil,后设置值</p>
+</blockquote>
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>再List重我们可以吧list完成栈，队列，双端队列….</p>
+<blockquote>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210227143005914.png" alt="image-20210227143005914" style="zoom:50%; padding-left:20px; margin-left:1px;" />
+</blockquote>
+<blockquote>
+<p>lpush list ~    #将一个值或者多个值，插入到列表头部(左)</p>
+<p>rpush list ~     #将一个值或者多个值，插入到列表头部(右)</p>
+<p>lrange list 0 -1   #获取列表所有值</p>
+<p>lrange list start end   #获取列表指定范围的值</p>
+<p>lpop  list         #移除列表的最左侧元素</p>
+<p>rpop  list</p>
+<hr>
+<p>lindex list pos    #获取列表指定位置的值</p>
+<p>Llen  list     #获取列表长度</p>
+<p>lrem list  2 one   #移除list集合中指定个数的value,精确匹配</p>
+<p>ltrim list start end   #截取指定位置  list被更改   java中是去除空格</p>
+<p>rpoplpush source des   #移除列表最后一个元素，并把他添加到新列表最左端 </p>
+<hr>
+<p>lset key index value  #可以间接实现更新，若改位置不存在则报错</p>
+<p>linsert key BEFORE|AFTER privot value    # privot指定值</p>
+</blockquote>
+<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><h2 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h2><h2 id="Zset"><a href="#Zset" class="headerlink" title="Zset"></a>Zset</h2><h1 id="三种特殊数据类型"><a href="#三种特殊数据类型" class="headerlink" title="三种特殊数据类型"></a>三种特殊数据类型</h1><h2 id="geospatial-地理位置"><a href="#geospatial-地理位置" class="headerlink" title="geospatial 地理位置"></a>geospatial 地理位置</h2><blockquote>
+<p>朋友的定位，附近的人，打车</p>
+<p>这个功能可以推断地理位置的信息，两地的距离，方圆几里的人</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>#规则 两级没有办法直接添加，一般会用java一次性导入</p>
+<p>geoadd key 纬度 经度 名称   （注意经纬度范围，可指定多个）</p>
+<hr>
+<p>#获取位置</p>
+<p>geopos key 名称   （可获取多个）</p>
+<hr>
+<p>#返回两个给定位置距离</p>
+<p>geodist key 名称1 名称2   （默认单位是米，最后加km，mi,ft指定单位）</p>
+<hr>
+<p>#以给定的经纬度为中心， 返回键包含的位置元素当中， 与中心的距离不超过给定最大距离的所有位置元素。&#x3D;&#x3D;附近的人，也可指定设定人数&#x3D;&#x3D;（count限制个数），所有信息都录入才精确</p>
+<p>georadius key 中心点纬度 中心点精度 半径（最后可以指定单位，等等）</p>
+<hr>
+<p>#都可以找出位于指定范围内的元素， 但是 <code>GEORADIUSBYMEMBER</code> 的中心点是由给定的位置元素决定的， 而不是像 <a target="_blank" rel="noopener" href="http://www.redis.cn/commands/georadius.html">GEORADIUS</a> 那样， 使用输入的经度和纬度来决定中心点</p>
+<p>georadiusbymember</p>
+<hr>
+<p>Geo的底层其实就是zset, geo中没有提供删除操作，可是使用zrem实现删除</p>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210228190100752.png" alt="image-20210228190100752" style="zoom:50%; margin-left:1px;" />
+
+<hr>
+</blockquote>
+<h2 id="hyperloglog"><a href="#hyperloglog" class="headerlink" title="hyperloglog"></a>hyperloglog</h2><p>&#x3D;&#x3D;基数&#x3D;&#x3D;：不重复的元素</p>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210228191250348.png" alt="image-20210228191250348" style="zoom:50%;margin-left:1px" />
+
+<h2 id="bitmaps"><a href="#bitmaps" class="headerlink" title="bitmaps"></a>bitmaps</h2><blockquote>
+<p>位存储</p>
+</blockquote>
+<p>统计用户信息：活跃，不活跃！ 登录，未登录（人数）  两个状态的都可以使用bitmaps  &#x3D;&#x3D;实现布隆过滤器&#x3D;&#x3D;</p>
+<p>该种数据结构，都是操作二进制位来记录的，只有0和1两种状态</p>
+<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><p>&#x3D;&#x3D;Redis单条命令保证原子性，但是事务不保证原子性！&#x3D;&#x3D;</p>
+<p>&#x3D;&#x3D;Redis事务中没有隔离级别的概念&#x3D;&#x3D;</p>
+<ul>
+<li>所有的命令在事务中，并没有直接执行，只有发起执行命令的时候才会执行！<strong>Exec</strong></li>
+</ul>
+<blockquote>
+<p><strong>Redis事务本质：</strong>一组命令的集合，一个事务中所有命令都会被序列化，在事务的执行过程中，会按照顺序执行</p>
+<p><strong>特性：</strong>一次性，顺序性，排他性</p>
+</blockquote>
+<blockquote>
+<p><strong>执行顺序:</strong></p>
+<ul>
+<li>开启事务（multi）</li>
+<li>命令入队</li>
+<li>执行事务（exec）</li>
+<li><img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210228200041425.png" alt="image-20210228200041425" style="zoom:50%;margin-left:1px" /></li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>放弃事务</strong></p>
+<ul>
+<li>在没有执行以前执行<strong>discard</strong>  (队列命令中的命令都不会执行)</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>事务中出现错误</strong></p>
+<ul>
+<li>编译型异常（代码有错误）:事务中所有命令都不会执行！</li>
+</ul>
+ <img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210228200932710.png" alt="image-20210228200932710" style="zoom:50%;" />
+
+<ul>
+<li>运行时异常（错误语法）：其他命令正常执行，错误命令抛出异常</li>
+</ul>
+ <img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210228201117688.png" alt="image-20210228201117688" style="zoom: 50%;" />
+</blockquote>
+<blockquote>
+<p>监控! Watch    (面试常问)</p>
+</blockquote>
+<p><strong>悲观锁：（很少使用）</strong></p>
+<ul>
+<li>很悲观，认为什么时候都会出问题，无论做什么都会加锁</li>
+</ul>
+<p><strong>乐观锁：</strong></p>
+<ul>
+<li>很乐观，认为什么时候都不会出问题，所以不上锁，</li>
+<li>获取version</li>
+<li>更新的时候比较version</li>
+</ul>
+<blockquote>
+<p>Redis测监视测试</p>
+</blockquote>
+<p>1.正常执行</p>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210228202733665.png" alt="image-20210228202733665" style="zoom:50%;margin-left:1px" />
+
+<p>2.测试多线程修改值，可以使用watch可以当作redis的乐观锁操作</p>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210228203416992.png" alt="image-20210228203416992" style="zoom:50%;margin-left:1px" />
+
+<p>如果修改失败，获取最新值即可</p>
+<img src="C:\Users\15005\AppData\Roaming\Typora\typora-user-images\image-20210228204018260.png" alt="image-20210228204018260" style="zoom:50%;margin-left:1px" />
+
+<h1 id="Springboot整合"><a href="#Springboot整合" class="headerlink" title="Springboot整合"></a>Springboot整合</h1><p>BIO：同步阻塞式IO，服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情会造成不必要的线程开销，当然可以通过线程池机制改善。<br>NIO：同步非阻塞式IO，服务器实现模式为一个请求一个线程，即客户端发送的连接请求都会注册到多路复用器上，多路复用器轮询到连接有I&#x2F;O请求时才启动一个线程进行处理。</p>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301091539562.png" alt="image-20210301091539562" style="zoom: 67%;margin-left:1px" />
+
+<p><img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301091539562.png" alt="image-20210301091539562" style="zoom: 67%;" /><img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301092555805.png" alt="image-20210301092555805" style="zoom:67%;" /></p>
+<p>&#x3D;&#x3D;<strong>redisTemplate配置</strong>&#x3D;&#x3D;</p>
+<p>template.afterPropertiesSet初始化操作</p>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301095120002.png" alt="image-20210301095120002" style="zoom: 50%;margin-left:1px" />
+
+<h1 id="Redis-conf详解"><a href="#Redis-conf详解" class="headerlink" title="Redis.conf详解"></a>Redis.conf详解</h1><p><strong>启动的时候就是通过配置文件启动</strong></p>
+<blockquote>
+<p>配置文件unit单位对大小写不敏感</p>
+</blockquote>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301102234598.png" alt="image-20210301102234598" style="zoom:50%;margin-left:1px;" />
+
+<blockquote>
+<p>可以包含其他配置文件</p>
+</blockquote>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301102459008.png" alt="image-20210301102459008" style="zoom:50%;margin-left:1px;" />
+
+<blockquote>
+<p>网络</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bind 127.0.0.1 -::1    #绑定ip</span><br><span class="line">protected-mode yes     # 保护模式</span><br><span class="line">port 6379			   #端口设置</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>通用</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">daemonize yes   #以守护方式运行（后台方式）</span><br><span class="line"></span><br><span class="line">pidfile /var/run/redis_6379.pid  # 后台方式运行，需要指定一个pid文件</span><br><span class="line"></span><br><span class="line"># 日志</span><br><span class="line"># Specify the server verbosity level.</span><br><span class="line"># This can be one of:</span><br><span class="line"># debug (a lot of information, useful for development/testing)</span><br><span class="line"># verbose (many rarely useful info, but not a mess like the debug level)</span><br><span class="line"># notice (moderately verbose, what you want in production probably) 生产环境</span><br><span class="line"># warning (only very important / critical messages are logged)</span><br><span class="line">loglevel notice</span><br><span class="line">logfile &quot;&quot;   #日志文件位置</span><br><span class="line">databases 16  #默认数据库数量</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>快照  SNAPSHOTTING  snapshotting</p>
+</blockquote>
+<p>持久化，在规定的时间内，执行多少次操作，会持久化到文件  .rdb  .aof</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># Unless specified otherwise, by default Redis will save the DB:</span><br><span class="line">#   * After 3600 seconds (an hour) if at least 1 key changed</span><br><span class="line">#   * After 300 seconds (5 minutes) if at least 100 keys changed</span><br><span class="line">#   * After 60 seconds if at least 10000 keys changed</span><br><span class="line">#</span><br><span class="line"># You can set these explicitly by uncommenting the three following lines.</span><br><span class="line">#</span><br><span class="line"># save 3600 1</span><br><span class="line"># save 300 100</span><br><span class="line"># save 60 10000</span><br><span class="line"></span><br><span class="line">stop-writes-on-bgsave-error yes    #如果持久化出错，是否还要继续工作</span><br><span class="line">rdbcompression yes            #是否压缩rdb文件，需要消耗一些cpu资源</span><br><span class="line">rdbchecksum yes               #保存rdb文件，进行错误检验</span><br><span class="line">dir ./						  #rdb文件保存目录</span><br><span class="line">dbfilename  dump.rdb 配置持久化文件名</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>REPLICATION 后面补充</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">replicaof &lt;masterip&gt;&lt;masterport&gt;      配置主机ip端口</span><br><span class="line">masterauth &lt;master-password&gt;         主机若有密码在此配置</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> SECURITY </p>
+</blockquote>
+<p>可以设置密码 默认没有密码</p>
+<p><img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301105240176.png" alt="image-20210301105240176" style="zoom:50%;margin-left:1px" /><img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301162238341.png" alt="image-20210301162238341"></p>
+<blockquote>
+<p>限制</p>
+</blockquote>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301105611609.png" alt="image-20210301105611609" style="zoom:67%;margin-left:1px" />
+
+<blockquote>
+<p>Append only模式 aof配置</p>
+</blockquote>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301105858923.png" alt="image-20210301105858923" style="zoom:50%;margin-left:1px" />
+
+<h1 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h1><h2 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h2><p>Redis是内存数据库，一旦退出数据就丢失，所以提供持久化功能</p>
+<p><img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301111947584.png" alt="image-20210301111947584"></p>
+<blockquote>
+<p>触发机制</p>
+</blockquote>
+<ul>
+<li>save方法规则满足时，自动执行rdb规则</li>
+<li>执行flushall命令，也会出发rdb规则</li>
+<li>退出redis,也会产生rdb文件</li>
+</ul>
+<blockquote>
+<p>如何恢复数据</p>
+</blockquote>
+<ul>
+<li><p>只需要将rdb文件放到redis启动目录就可以自动读取恢复</p>
+</li>
+<li><pre><code class="bash">127.0.0.1:6379&gt; config get dir
+1) &quot;dir&quot;
+2) &quot;/usr/local/bin&quot;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**优点：**</span><br><span class="line"></span><br><span class="line">1. 适合大规模数据恢复（一般会备份rdb文件）</span><br><span class="line">2. 对数据完整性要求不高</span><br><span class="line"></span><br><span class="line">**缺点：**</span><br><span class="line"></span><br><span class="line">1. 需要一定时间间隔操作，如果意外宕机，最后一次修改数据就没了</span><br><span class="line">2. fork进程会占用一定内存</span><br><span class="line"></span><br><span class="line">## AOF</span><br><span class="line"></span><br><span class="line">将我们所有的命令记录下来，恢复的时候重新执行一遍</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301140344015.png&quot; alt=&quot;image-20210301140344015&quot; style=&quot;zoom:67%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">AOF保存的是appendonly.aof</span><br><span class="line"></span><br><span class="line">&gt;默认不开启，我们需要手动配置</span><br><span class="line">&gt;</span><br><span class="line">&gt;如果aof文件存在错误，可以使用redis-check-aof去修复</span><br><span class="line">&gt;</span><br><span class="line">&gt;redis-check-aof  --fix appendonly.aof</span><br><span class="line">&gt;</span><br><span class="line">&gt; 如果正常 可以启动成功</span><br><span class="line"></span><br><span class="line">**优点**</span><br><span class="line"></span><br><span class="line">每一次修改都同步，文件的完整性会很好</span><br><span class="line"></span><br><span class="line">每秒同步一次，可能会丢失</span><br><span class="line"></span><br><span class="line">**缺点**</span><br><span class="line"></span><br><span class="line">相对于aof远远大于rdb,修复速度也比rdb慢</span><br><span class="line"></span><br><span class="line">运行效率没有rdb高</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301142031954.png&quot; alt=&quot;image-20210301142031954&quot; style=&quot;zoom:67%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line"># redis消息订阅</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301154049993.png&quot; alt=&quot;image-20210301154049993&quot; style=&quot;zoom:67%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301154413436.png&quot; alt=&quot;image-20210301154413436&quot; style=&quot;zoom:67%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301154652516.png&quot; alt=&quot;image-20210301154652516&quot; style=&quot;zoom:67%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301155100444.png&quot; alt=&quot;image-20210301155100444&quot; style=&quot;zoom: 67%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&gt; 底层数据结构</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301155522130.png&quot; alt=&quot;image-20210301155522130&quot; style=&quot;zoom: 50%;&quot; /&gt;&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301155742772.png&quot; alt=&quot;image-20210301155742772&quot; style=&quot;zoom:50%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line"># Redis主从复制</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301155941441.png&quot; alt=&quot;image-20210301155941441&quot; style=&quot;zoom:67%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">==主从复制，读写分离，80%的情况下都是读，将读的压力分给从机==</span><br><span class="line"></span><br><span class="line">不可能单机使用redis</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301161303996.png&quot; alt=&quot;image-20210301161303996&quot; style=&quot;zoom:50%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">## 环境配置</span><br><span class="line"></span><br><span class="line">只配置从库，不配置主库</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301162238341.png&quot; alt=&quot;image-20210301162238341&quot; style=&quot;zoom:67%;margin-left:1px&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;img src=&quot;D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301162504107.png&quot; alt=&quot;image-20210301162504107&quot; style=&quot;zoom:67%;&quot; /&gt;</span><br><span class="line"></span><br><span class="line">## 最小一主二从</span><br><span class="line"></span><br><span class="line">==默认情况下，每台主机都是主节点==我们只需要配置从机即可</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">slaveof ip port</span><br><span class="line"></span><br><span class="line">可以在主机中使用info replication查看信息</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+<p>一般使用是在配置文件中进行就该见 &#x3D;&#x3D;redis.conf详解&#x3D;&#x3D;</p>
+<blockquote>
+<p>细节</p>
+</blockquote>
+<p>主机可以写，从机只能读，主机中所有的信息，都会自动被从机保存</p>
+<p>测试：主机断开连接，从机依旧连接主机，但是没有写操作，主机如果回来，立马可以从主机获取信息</p>
+<p>如果是命令行配置，从机重启，就会变回主机，只要变回从机，立马就从主机中获取值</p>
+<blockquote>
+<p>复制原理</p>
+</blockquote>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301184802843.png" alt="image-20210301184802843" style="zoom:67%;" />
+
+<h2 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h2><p>（自动选取老大的过程）</p>
+<p><strong>概述</strong></p>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301190124362.png" alt="image-20210301190124362" style="zoom: 50%;margin-left:1px" />
+
+<hr>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301190333492.png" alt="image-20210301190333492" style="zoom:50%;margin-left:1px" />
+
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301190628897.png" alt="image-20210301190628897" style="zoom:50%;margin-left:1px" />
+
+<blockquote>
+<p>测试</p>
+</blockquote>
+<p>我们目前配置一主二从</p>
+<p>1.配置哨兵配置文件sentinel.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor myredis 127.0.0.1 6379</span><br></pre></td></tr></table></figure>
+
+<p>后面这个数字1，代表主机挂了，slave投票看让谁接替称为主机</p>
+<p>2.启动哨兵   </p>
+<p>主机宕机了，哨兵从从机中选取主机</p>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301191700655.png" alt="image-20210301191700655" style="zoom:50%;margin-left:1px" />
+
+<blockquote>
+<p>哨兵模式</p>
+</blockquote>
+<p>如果主机回来，只能归并到新的主机下，当作从机</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>哨兵集群基于主从复制，所有主从配置的优点他全有</li>
+<li>主从可以切换，故障可以转移，系统可用性更好</li>
+<li>手动到自动，更加健壮</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>哨兵模式不可在线扩容，一旦到达集群上限，在线扩容十分麻烦</li>
+<li>实现哨兵模式配置很麻烦，有很多选择</li>
+</ul>
+<blockquote>
+<p>哨兵模式全部配置</p>
+</blockquote>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301192512947.png" alt="image-20210301192512947" style="zoom: 50%; margin-left: 1px;" />
+
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301192647289.png" alt="image-20210301192647289" style="zoom: 50%;margin-left:1px" />
+
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301192906720.png" alt="image-20210301192906720" style="zoom:50%;margin-left:1px" />
+
+<h1 id="缓存穿透和雪崩（面试高频，工作常用）"><a href="#缓存穿透和雪崩（面试高频，工作常用）" class="headerlink" title="缓存穿透和雪崩（面试高频，工作常用）"></a>缓存穿透和雪崩（面试高频，工作常用）</h1><h2 id="缓存穿透-查不到导致"><a href="#缓存穿透-查不到导致" class="headerlink" title="缓存穿透(查不到导致)"></a>缓存穿透(查不到导致)</h2><blockquote>
+<p>概念</p>
+</blockquote>
+<p>缓存穿透的概念很简单，用户想要查询一个数据，发现redis数据库中没有，也就是缓存没有命中，于是向持久层数据库查询，发现也没有。当很多用户的时候，缓存都没有命中（秒杀），于是都去请求数据库，这会给数据库造成很大压力，这时候就出现了缓存穿透。</p>
+<blockquote>
+<p>解决方式</p>
+</blockquote>
+<p><strong>布隆过滤器</strong></p>
+<p>布隆过滤器是一种数据结构，对所有可能查询的参数以hash的形式进行存储，在控制层先进行校验，不符合则丢弃，从而避免对底层数据查询系统造成压力</p>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301203649101.png" alt="image-20210301203649101" style="zoom: 67%; margin-left: 1px;" />
+
+
+
+<p><strong>缓存空对象</strong></p>
+<p>当存储层不命中时，即使返回空对象也缓存起来，同时也会设置一个过期时间，之后再访问这个数据将会从缓存中获取，保护了后端数据</p>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301203909554.png" alt="image-20210301203909554" style="zoom:67%;margin-left:1px" />
+
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301204029408.png" alt="image-20210301204029408" style="zoom:67%;" />
+
+<h2 id="缓存击穿（量太大，缓存过期）"><a href="#缓存击穿（量太大，缓存过期）" class="headerlink" title="缓存击穿（量太大，缓存过期）"></a>缓存击穿（量太大，缓存过期）</h2><blockquote>
+<p>概述</p>
+</blockquote>
+<p>注意和缓存穿透区别，是指一个key（或者少部分key）非常热点，在不停的扛着大并发，当这个key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库，就像在屏幕上凿开一个洞</p>
+<blockquote>
+<p>解决方案</p>
+</blockquote>
+<p><strong>设置热点数据永不过期</strong></p>
+<p>从缓存层面来看，没有设置过期时间，所以不会出现key过期后产生的缓存击穿</p>
+<p><strong>加互斥锁</strong></p>
+<p>分布式锁：使用分布式锁，保证对于每个key同时只有一个线程去查询后端服务，其他线程 没有获得分布式锁的权限,因此只需要等待即可。这种方式将高并发的压力转移到了分布式锁，因此对分布式锁的考研很大。</p>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301211141978.png" alt="image-20210301211141978" style="zoom:50%;margin-left:1px" />
+
+<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><blockquote>
+<p>概念</p>
+</blockquote>
+<p>缓存雪崩：是指某一个时间段，缓存集中过期失效，redis宕机</p>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301211431505.png" alt="image-20210301211431505" style="zoom:67%;" />
+
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301211603539.png" alt="image-20210301211603539" style="zoom:67%;" />
+
+<blockquote>
+<p>解决方案</p>
+</blockquote>
+<img src="D:\Desktop\java\框架及技术\redis\Redis学习笔记.assets\image-20210301211645269.png" alt="image-20210301211645269" style="zoom:67%;" />
+
+<h1 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p> <strong>布隆过滤器产生原因</strong></p>
+</blockquote>
+<p>如何准确快速的判断某个数据是否在大数据量集合中，并且不占用内存，布隆过滤器应运而生了。</p>
+<blockquote>
+<p>布隆过滤器简介</p>
+</blockquote>
+<p>布隆过滤器：一种数据结构，是由一串很长的二进制向量组成，可以将其看成一个二进制数组。既然是二进制，那么里面存放的不是0，就是1，但是初始默认值都是0。</p>
+<img src="https://img2020.cnblogs.com/blog/1120165/202003/1120165-20200330220824117-1290183653.png" alt="img" style="zoom:67%;" />
+
+<p>&#x3D;&#x3D;1.添加数据&#x3D;&#x3D;</p>
+<p>​		如下图所示：当要向布隆过滤器中添加一个元素key时，我们通过多个hash函数，算出一个值，然后将这个值所在的方格置为1。</p>
+<p>　　比如，下图hash1(key)&#x3D;1，那么在第2个格子将0变为1（数组是从0开始计数的），hash2(key)&#x3D;7，那么将第8个格子置位1，依次类推。</p>
+<img src="https://img2020.cnblogs.com/blog/1120165/202003/1120165-20200330221613591-2062171492.png" alt="img" style="zoom:67%;" />
+
+<p>&#x3D;&#x3D;2.判断数据是否存在？&#x3D;&#x3D;</p>
+<p>　	知道了如何向布隆过滤器中添加一个数据，那么新来一个数据，我们如何判断其是否存在于这个布隆过滤器中呢？</p>
+<p>　　很简单，我们只需要将这个新的数据通过上面自定义的几个哈希函数，分别算出各个值，然后看其对应的地方是否都是1，如果存在一个不是1的情况，那么我们可以说，该新数据一定不存在于这个布隆过滤器中。</p>
+<p>　　反过来说，如果通过哈希函数算出来的值，对应的地方都是1，那么我们能够肯定的得出：这个数据一定存在于这个布隆过滤器中吗？</p>
+<p>　　答案是否定的，因为多个不同的数据通过hash函数算出来的结果是会有重复的，所以会存在某个位置是别的数据通过hash函数置为的1。</p>
+<p>　　我们可以得到一个结论：<strong>布隆过滤器可以判断某个数据一定不存在，但是无法判断一定存在</strong>。</p>
+<p>&#x3D;&#x3D;<strong>3.布隆过滤器优缺点</strong>&#x3D;&#x3D;</p>
+<p>　　优点：优点很明显，二进制组成的数组，占用内存极少，并且插入和查询速度都足够快。</p>
+<p>　　缺点：随着数据的增加，误判率会增加；还有无法判断数据一定存在；另外还有一个重要缺点，无法删除数据。</p>
+<h2 id="Redis实现布隆过滤器"><a href="#Redis实现布隆过滤器" class="headerlink" title="Redis实现布隆过滤器"></a>Redis实现布隆过滤器</h2><h4 id="①、bitmaps"><a href="#①、bitmaps" class="headerlink" title="①、bitmaps"></a>①、bitmaps</h4><p>　　我们知道计算机是以二进制位作为底层存储的基础单位，一个字节等于8位。</p>
+<p>　　比如“big”字符串是由三个字符组成的，这三个字符对应的ASCII码分为是98、105、103，对应的二进制存储如下：</p>
+<p>　　<img src="https://img2020.cnblogs.com/blog/1120165/202004/1120165-20200404213453130-714545258.png" alt="img" style="zoom:67%;" /></p>
+<p> 　在Redis中，Bitmaps 提供了一套命令用来操作类似上面字符串中的每一个位。</p>
+<p>　　<strong>一、设置值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setbit key offset value</span><br></pre></td></tr></table></figure>
+
+<p>　　<img src="https://img2020.cnblogs.com/blog/1120165/202004/1120165-20200404214003953-5622706.png" alt="img"></p>
+<p> 　我们知道”b”的二进制表示为0110 0010，我们将第7位（从0开始）设置为1，那0110 0011 表示的就是字符“c”，所以最后的字符 “big”变成了“cig”。</p>
+<p>　　<strong>二、获取值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitbit key offset</span><br></pre></td></tr></table></figure>
+
+<p>　　<img src="https://img2020.cnblogs.com/blog/1120165/202004/1120165-20200404214216788-374691466.png" alt="img"></p>
+<p> 　<strong>三、获取位图指定范围值为1的个数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcount key [start end]</span><br></pre></td></tr></table></figure>
+
+<p>　　如果不指定，那就是获取全部值为1的个数。</p>
+<p>　　注意：start和end指定的是<strong>字节的个数</strong>，而不是位数组下标。</p>
+<p>　　<img src="https://img2020.cnblogs.com/blog/1120165/202004/1120165-20200404214812688-1075855704.png" alt="img"></p>
+<h4 id="②、Redisson"><a href="#②、Redisson" class="headerlink" title="②、Redisson"></a>②、Redisson</h4><p>　　Redis 实现布隆过滤器的底层就是通过 bitmap 这种数据结构，至于如何实现，这里就不重复造轮子了，介绍业界比较好用的一个客户端工具——Redisson。</p>
+<p>　　Redisson 是用于在 Java 程序中操作 Redis 的库，利用Redisson 我们可以在程序中轻松地使用 Redis。</p>
+<p>　　下面我们就通过 Redisson 来构造布隆过滤器。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> 1 package com.ys.rediscluster.bloomfilter.redisson;</span><br><span class="line"> 2 </span><br><span class="line"> 3 import org.redisson.Redisson;</span><br><span class="line"> 4 import org.redisson.api.RBloomFilter;</span><br><span class="line"> 5 import org.redisson.api.RedissonClient;</span><br><span class="line"> 6 import org.redisson.config.Config;</span><br><span class="line"> 7 </span><br><span class="line"> 8 public class RedissonBloomFilter &#123;</span><br><span class="line"> 9 </span><br><span class="line">10     public static void main(String[] args) &#123;</span><br><span class="line">11         Config config = new Config();</span><br><span class="line">12         config.useSingleServer().setAddress(&quot;redis://192.168.14.104:6379&quot;);</span><br><span class="line">13         config.useSingleServer().setPassword(&quot;123&quot;);</span><br><span class="line">14         //构造Redisson</span><br><span class="line">15         RedissonClient redisson = Redisson.create(config);</span><br><span class="line">16 </span><br><span class="line">17         RBloomFilter&lt;String&gt; bloomFilter = redisson.getBloomFilter(&quot;phoneList&quot;);</span><br><span class="line">18         //初始化布隆过滤器：预计元素为100000000L,误差率为3%</span><br><span class="line">19         bloomFilter.tryInit(100000000L,0.03);</span><br><span class="line">20         //将号码10086插入到布隆过滤器中</span><br><span class="line">21         bloomFilter.add(&quot;10086&quot;);</span><br><span class="line">22 </span><br><span class="line">23         //判断下面号码是否在布隆过滤器中</span><br><span class="line">24         System.out.println(bloomFilter.contains(&quot;123456&quot;));//false</span><br><span class="line">25         System.out.println(bloomFilter.contains(&quot;10086&quot;));//true</span><br><span class="line">26     &#125;</span><br><span class="line">27 &#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　这是单节点的Redis实现方式，如果数据量比较大，期望的误差率又很低，那单节点所提供的内存是无法满足的，这时候可以使用分布式布隆过滤器，同样也可以用 Redisson 来实现，这里我就不做代码演示了，大家有兴趣可以试试。</p>
+<h3 id="4、guava-工具"><a href="#4、guava-工具" class="headerlink" title="4、guava 工具"></a>4、guava 工具</h3><p>　　最后提一下不用Redis如何来实现布隆过滤器。</p>
+<p>　　guava 工具包相信大家都用过，这是谷歌公司提供的，里面也提供了布隆过滤器的实现。</p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> 1 package com.ys.rediscluster.bloomfilter;</span><br><span class="line"> 2 </span><br><span class="line"> 3 import com.google.common.base.Charsets;</span><br><span class="line"> 4 import com.google.common.hash.BloomFilter;</span><br><span class="line"> 5 import com.google.common.hash.Funnel;</span><br><span class="line"> 6 import com.google.common.hash.Funnels;</span><br><span class="line"> 7 </span><br><span class="line"> 8 public class GuavaBloomFilter &#123;</span><br><span class="line"> 9     public static void main(String[] args) &#123;</span><br><span class="line">10         BloomFilter&lt;String&gt; bloomFilter = BloomFilter.create(Funnels.stringFunnel(Charsets.UTF_8),100000,0.01);</span><br><span class="line">11 </span><br><span class="line">12         bloomFilter.put(&quot;10086&quot;);</span><br><span class="line">13 </span><br><span class="line">14         System.out.println(bloomFilter.mightContain(&quot;123456&quot;));</span><br><span class="line">15         System.out.println(bloomFilter.mightContain(&quot;10086&quot;));</span><br><span class="line">16     &#125;</span><br><span class="line">17 &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+        <a class="extend prev post-prev" href="/2022/10/10/Spring%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">prev</a>
+    
+
+    
+    <p>last update time 2023-08-05</p>
+    
+    
+    </div>
+
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © 洪志鑫 2022 - 2023
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>

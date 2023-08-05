@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>JDK8 Stream 流失查询详解 [ 洪志鑫技术博客 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/favicon.ico"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">JDK8 Stream 流失查询详解</h1>
+<article class="post markdown-style">
+  <h1 id="JDK8-Stream详解"><a href="#JDK8-Stream详解" class="headerlink" title="JDK8 Stream详解"></a>JDK8 Stream详解</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><blockquote>
+<p>Stream是Java8 API的新成员，它允许以声明性方式处理数据集合 。</p>
+</blockquote>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><blockquote>
+<p>（1）<strong>代码简洁</strong>：函数式编程写出的代码简洁且意图明确，使用<em>stream</em>接口让你从此告别<em>for</em>循环。 </p>
+<p>（2）<strong>多核友好</strong>：Java函数式编程使得编写并行程序从未如此简单，你需要的全部就是调用一下方法。 </p>
+</blockquote>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1）第一步：把集合转换为流stream</span><br><span class="line">2）第二步：操作stream流</span><br><span class="line">stream流在管道中经过中间操作（intermediate operation）的处理，最后由最终操作(terminal operation)得到前面处理的结果</span><br></pre></td></tr></table></figure>
+
+<h2 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h2><blockquote>
+<p>两种：中间操作符、终止操作符</p>
+</blockquote>
+<h3 id="中间操作符"><a href="#中间操作符" class="headerlink" title="中间操作符"></a>中间操作符</h3><table>
+<thead>
+<tr>
+<th>流方法</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>filter</td>
+<td>用于通过设置的条件过滤出元素</td>
+<td>List<String> strings &#x3D; Arrays.asList(“abc”, “”, “bc”, “efg”, “abcd”,””, “jkl”);List<String> filtered &#x3D; strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());</td>
+</tr>
+<tr>
+<td>distinct</td>
+<td>返回一个元素各异（根据流所生成元素的hashCode和equals方法实现）的流。</td>
+<td>List<Integer> numbers &#x3D; Arrays.asList(1, 2, 1, 3, 3, 2, 4);numbers.stream().filter(i -&gt; i % 2 &#x3D;&#x3D; 0).distinct().forEach(System.out::println);</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>会返回一个不超过给定长度的流。</td>
+<td>List<String> strings &#x3D; Arrays.asList(“abc”, “abc”, “bc”, “efg”, “abcd”,”jkl”, “jkl”);List<String> limited &#x3D; strings.stream().limit(3).collect(Collectors.toList());</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>返回一个扔掉了前n个元素的流。</td>
+<td>List<String> strings &#x3D; Arrays.asList(“abc”, “abc”, “bc”, “efg”, “abcd”,”jkl”, “jkl”);List<String> skiped &#x3D; strings.stream().skip(3).collect(Collectors.toList());</td>
+</tr>
+<tr>
+<td>map</td>
+<td>接受一个函数作为参数。这个函数会被应用到每个元素上，并将其映射成一个新的元素（使用映射一词，是因为它和转换类似，但其中的细微差别在于它是“创建一个新版本”而不是去“修改”）。</td>
+<td>List<String> strings &#x3D; Arrays.asList(“abc”, “abc”, “bc”, “efg”, “abcd”,”jkl”, “jkl”);List<String> mapped &#x3D; strings.stream().map(str-&gt;str+”-itcast”).collect(Collectors.toList());</td>
+</tr>
+<tr>
+<td>flatMap</td>
+<td>使用flatMap方法的效果是，各个数组并不是分别映射成一个流，而是映射成流的内容。所有使用map(Arrays::stream)时生成的单个流都被合并起来，即扁平化为一个流。</td>
+<td>List<String> strings &#x3D; Arrays.asList(“abc”, “abc”, “bc”, “efg”, “abcd”,”jkl”, “jkl”);Stream<Character> flatMap &#x3D; strings.stream().flatMap(Java8StreamTest::getCharacterByString);</td>
+</tr>
+<tr>
+<td>sorted</td>
+<td>返回排序后的流</td>
+<td>List<String> strings1 &#x3D; Arrays.asList(“abc”, “abd”, “aba”, “efg”, “abcd”,”jkl”, “jkl”);List<String> sorted1 &#x3D; strings1.stream().sorted().collect(Collectors.toList());</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>示例代码：</p>
+<p>1）filter</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述:根据条件过滤集合数据</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">filter</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;bc&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    List&lt;String&gt; filtered = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());</span><br><span class="line">    out.println(filtered);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2）distinct</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述:去除集合中重复数据</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">distinct</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="string">&quot;bc&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    List&lt;String&gt; distincted = strings.stream().distinct().collect(Collectors.toList());</span><br><span class="line">    out.println(distincted);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3）limit</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述:指定获取集合前x条数据，重新构造一个新的集合</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">limit</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="string">&quot;bc&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    List&lt;String&gt; limited = strings.stream().limit(<span class="number">3</span>).collect(Collectors.toList());</span><br><span class="line">    out.println(limited);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4）skip</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述:排除集合前x条数据，把后面的数据重新构造一个新的集合</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">skip</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="string">&quot;bc&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    List&lt;String&gt; skiped = strings.stream().skip(<span class="number">3</span>).collect(Collectors.toList());</span><br><span class="line">    out.println(skiped);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5）map</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述:对集合中所有元素统一处理</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">map</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="string">&quot;bc&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    List&lt;String&gt; mapped = strings.stream().map(str-&gt;str+<span class="string">&quot;-itcast&quot;</span>).collect(Collectors.toList());</span><br><span class="line">    out.println(mapped);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>6）flatMap</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述:对集合中所有元素统一处理</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">flatMap</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="string">&quot;bc&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    Stream&lt;String&gt; stringStream = strings.stream().map(x -&gt; x);</span><br><span class="line">    Stream&lt;String&gt; stringStream1 = strings.stream().flatMap(x -&gt; Arrays.asList(x.split(<span class="string">&quot; &quot;</span>)).stream());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>7）sorted</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述 : 对集合进行排序</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sorted</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings1 = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abd&quot;</span>, <span class="string">&quot;aba&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    List&lt;String&gt; strings2 = Arrays.asList(<span class="string">&quot;张三&quot;</span>, <span class="string">&quot;李四&quot;</span>, <span class="string">&quot;王五&quot;</span>, <span class="string">&quot;赵柳&quot;</span>, <span class="string">&quot;张哥&quot;</span>,<span class="string">&quot;李哥&quot;</span>, <span class="string">&quot;王哥&quot;</span>);</span><br><span class="line">    List&lt;Integer&gt; strings3 = Arrays.asList(<span class="number">10</span>, <span class="number">2</span>, <span class="number">30</span>, <span class="number">22</span>, <span class="number">1</span>,<span class="number">0</span>, -<span class="number">9</span>);</span><br><span class="line">    List&lt;String&gt; sorted1 = strings1.stream().sorted().collect(Collectors.toList());</span><br><span class="line">    List&lt;String&gt; sorted2 = strings2.stream().sorted(Collections.reverseOrder(Collator.getInstance(Locale.CHINA))).collect(Collectors.toList());</span><br><span class="line">    List&lt;Integer&gt; sorted3 = strings3.stream().sorted().collect(Collectors.toList());</span><br><span class="line">    out.println(sorted1);</span><br><span class="line">    out.println(sorted2);</span><br><span class="line">    out.println(sorted3);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> Map、flatMap区别</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">map：对流中每一个元素进行处理</span><br><span class="line">flatMap：流扁平化，让你把一个流中的“每个值”都换成另一个流，然后把所有的流连接起来成为一个流 </span><br><span class="line">总结：map是对一级元素进行操作，flatmap是对二级元素操作。</span><br></pre></td></tr></table></figure>
+
+<p><code>本质区别</code>：map返回一个值；flatmap返回一个流，多个值。</p>
+<p><code>应用场景</code>：map对集合中每个元素加工,返回加工后结果；flatmap对集合中每个元素加工后，做扁平化处理后（拆分层级，放到同一层）然后返回</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 方法一</span></span><br><span class="line"><span class="comment"> * 功能描述:  通过使用map、flatMap把字符串转换为字符输出对比区别</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">flatMap2Map</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abc&quot;</span>, <span class="string">&quot;bc&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    <span class="keyword">final</span> Stream&lt;Character&gt; flatMap = strings.stream().flatMap(Java8StreamTest::getCharacterByString);</span><br><span class="line">    flatMap.forEach(System.out::println);</span><br><span class="line">    <span class="comment">//----------------------------------------------</span></span><br><span class="line">    <span class="keyword">final</span> Stream&lt;Stream&lt;Character&gt;&gt; mapStream = strings.stream().map(Java8StreamTest::getCharacterByString);</span><br><span class="line">    <span class="comment">//mapStream.forEach(System.out::println);</span></span><br><span class="line">    out.println(<span class="string">&quot;------------------------------------------------&quot;</span>);</span><br><span class="line">    mapStream.forEach(stream-&gt; &#123;stream.forEach(character-&gt;&#123;System.out.println(character);&#125;);&#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>公共方法（字符串转换为字符流）</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 功能描述:字符串转换为字符流</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> str</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> : java.util.stream.Stream&lt;java.lang.Character&gt;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Stream&lt;Character&gt; <span class="title function_">getCharacterByString</span><span class="params">(String str)</span> &#123;</span><br><span class="line">    List&lt;Character&gt; characterList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (Character character : str.toCharArray()) &#123;</span><br><span class="line">    	characterList.add(character);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> characterList.stream();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="终止操作符"><a href="#终止操作符" class="headerlink" title="终止操作符"></a>终止操作符</h3><table>
+<thead>
+<tr>
+<th>流方法</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>anyMatch</td>
+<td>检查是否至少匹配一个元素，返回boolean。</td>
+<td>List<String> strings &#x3D; Arrays.asList(“abc”, “abd”, “aba”, “efg”, “abcd”,”jkl”, “jkl”);boolean b &#x3D; strings.stream().anyMatch(s -&gt; s &#x3D;&#x3D; “abc”);</td>
+</tr>
+<tr>
+<td>allMatch</td>
+<td>检查是否匹配所有元素，返回boolean。</td>
+<td>List<String> strings &#x3D; Arrays.asList(“abc”, “abd”, “aba”, “efg”, “abcd”,”jkl”, “jkl”);boolean b &#x3D; strings.stream().allMatch(s -&gt; s &#x3D;&#x3D; “abc”);</td>
+</tr>
+<tr>
+<td>noneMatch</td>
+<td>检查是否没有匹配所有元素，返回boolean。</td>
+<td>List<String> strings &#x3D; Arrays.asList(“abc”, “abd”, “aba”, “efg”, “abcd”,”jkl”, “jkl”);boolean b &#x3D; strings.stream().noneMatch(s -&gt; s &#x3D;&#x3D; “abc”);</td>
+</tr>
+<tr>
+<td>findAny</td>
+<td>将返回当前流中的任意元素。</td>
+<td>List<String> strings &#x3D; Arrays.asList(“cv”, “abd”, “aba”, “efg”, “abcd”,”jkl”, “jkl”);Optional<String> any &#x3D; strings.stream().findAny();</td>
+</tr>
+<tr>
+<td>findFirst</td>
+<td>返回第一个元素</td>
+<td>List<String> strings &#x3D; Arrays.asList(“cv”, “abd”, “aba”, “efg”, “abcd”,”jkl”, “jkl”);Optional<String> first &#x3D; strings.stream().findFirst();</td>
+</tr>
+<tr>
+<td>forEach</td>
+<td>遍历流</td>
+<td>List<String> strings &#x3D; Arrays.asList(“cv”, “abd”, “aba”, “efg”, “abcd”,”jkl”, “jkl”);strings.stream().forEach(s -&gt; out.println(s));</td>
+</tr>
+<tr>
+<td>collect</td>
+<td>收集器，将流转换为其他形式。</td>
+<td>List<String> strings &#x3D; Arrays.asList(“cv”, “abd”, “aba”, “efg”, “abcd”,”jkl”, “jkl”);Set<String> set &#x3D; strings.stream().collect(Collectors.toSet());List<String> list &#x3D; strings.stream().collect(Collectors.toList());Map&lt;String, String&gt; map &#x3D; strings.stream().collect(Collectors.toMap(v -&gt;v.concat(“_name”), v1 -&gt; v1, (v1, v2) -&gt; v1));</td>
+</tr>
+<tr>
+<td>reduce</td>
+<td>可以将流中元素反复结合起来，得到一个值。</td>
+<td>List<String> strings &#x3D; Arrays.asList(“cv”, “abd”, “aba”, “efg”, “abcd”,”jkl”, “jkl”);Optional<String> reduce &#x3D; strings.stream().reduce((acc,item) -&gt; {return acc+item;});if(reduce.isPresent())out.println(reduce.get());</td>
+</tr>
+<tr>
+<td>count</td>
+<td>返回流中元素总数。</td>
+<td>List<String> strings &#x3D; Arrays.asList(“cv”, “abd”, “aba”, “efg”, “abcd”,”jkl”, “jkl”);long count &#x3D; strings.stream().count();</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>示例代码</p>
+<p>1）anyMatch</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述 : 判断集合中是否至少存在一个元素满足条件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">anyMatch</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abd&quot;</span>, <span class="string">&quot;aba&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">b</span> <span class="operator">=</span> strings.stream().anyMatch(s -&gt; s == <span class="string">&quot;abc&quot;</span>);</span><br><span class="line">    out.println(b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2）allMatch</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述 : 判断集合中是否所有元素都满足条件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">allMatch</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abd&quot;</span>, <span class="string">&quot;aba&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">b</span> <span class="operator">=</span> strings.stream().allMatch(s -&gt; s == <span class="string">&quot;abc&quot;</span>);</span><br><span class="line">    out.println(b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3）noneMatch</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述 : 判断集合中是否所有元素都不满足条件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">noneMatch</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;abd&quot;</span>, <span class="string">&quot;aba&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">b</span> <span class="operator">=</span> strings.stream().noneMatch(s -&gt; s == <span class="string">&quot;abc&quot;</span>);</span><br><span class="line">    out.println(b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4）findAny</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述 : 返回当前流中任意元素</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">findAny</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;cv&quot;</span>, <span class="string">&quot;abd&quot;</span>, <span class="string">&quot;aba&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    Optional&lt;String&gt; any = strings.stream().findAny();</span><br><span class="line">    <span class="keyword">if</span>(any.isPresent()) out.println(any.get());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5）findFirst</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述 : 返回当前流中第一个元素</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">findFirst</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;cv&quot;</span>, <span class="string">&quot;abd&quot;</span>, <span class="string">&quot;aba&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    Optional&lt;String&gt; first = strings.stream().findFirst();</span><br><span class="line">    <span class="keyword">if</span>(first.isPresent()) out.println(first.get());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>6）forEach java </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述 : 遍历流</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">foreach</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;cv&quot;</span>, <span class="string">&quot;abd&quot;</span>, <span class="string">&quot;aba&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    strings.stream().forEach(s -&gt; out.println(s));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>7）collect</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述 : 流转换为其他形式</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">collect</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;cv&quot;</span>, <span class="string">&quot;abd&quot;</span>, <span class="string">&quot;aba&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    Set&lt;String&gt; set = strings.stream().collect(Collectors.toSet());</span><br><span class="line">    List&lt;String&gt; list = strings.stream().collect(Collectors.toList());</span><br><span class="line">    Map&lt;String, String&gt; map = strings.stream().collect(Collectors.toMap(v -&gt;v.concat(<span class="string">&quot;_name&quot;</span>), v1 -&gt; v1, (v1, v2) -&gt; v1));</span><br><span class="line">    out.println(set);</span><br><span class="line">    out.println(list);</span><br><span class="line">    out.println(map);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>8）reduce</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 功能描述 : 将流中元素反复结合起来，得到一个值</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">reduce</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;cv&quot;</span>, <span class="string">&quot;abd&quot;</span>, <span class="string">&quot;aba&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    <span class="comment">//reduce方法一</span></span><br><span class="line">    Optional&lt;String&gt; reduce1 = strings.stream().reduce((acc,item) -&gt; &#123;<span class="keyword">return</span> acc+item;&#125;);</span><br><span class="line">    <span class="comment">//reduce方法二</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">reduce2</span> <span class="operator">=</span> strings.stream().reduce(<span class="string">&quot;itcast&quot;</span>, (acc, item) -&gt; &#123;</span><br><span class="line">    	<span class="keyword">return</span> acc + item;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">//reduce方法三</span></span><br><span class="line">    ArrayList&lt;String&gt; reduce3 = strings.stream().reduce(</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;(),</span><br><span class="line">   		<span class="keyword">new</span> <span class="title class_">BiFunction</span>&lt;ArrayList&lt;String&gt;, String, ArrayList&lt;String&gt;&gt;() &#123;</span><br><span class="line">    		<span class="meta">@Override</span></span><br><span class="line">    		<span class="keyword">public</span> ArrayList&lt;String&gt; <span class="title function_">apply</span><span class="params">(ArrayList&lt;String&gt; acc, String item)</span> &#123;</span><br><span class="line">    			acc.add(item);</span><br><span class="line">    			<span class="keyword">return</span> acc;</span><br><span class="line">    		&#125;</span><br><span class="line">    	&#125;, </span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">BinaryOperator</span>&lt;ArrayList&lt;String&gt;&gt;() &#123;</span><br><span class="line">   			<span class="meta">@Override</span></span><br><span class="line">    		<span class="keyword">public</span> ArrayList&lt;String&gt; <span class="title function_">apply</span><span class="params">(ArrayList&lt;String&gt; acc, ArrayList&lt;String&gt; item)</span> &#123;</span><br><span class="line">    		<span class="keyword">return</span> acc;</span><br><span class="line">    		&#125;</span><br><span class="line">    	&#125;</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">if</span>(reduce1.isPresent())out.println(reduce1.get());</span><br><span class="line">    out.println(reduce2);</span><br><span class="line">    out.println(reduce3);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>9）count</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 功能描述 : 返回流中元素总数</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> : void</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">count</span><span class="params">()</span>&#123;</span><br><span class="line">    List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;cv&quot;</span>, <span class="string">&quot;abd&quot;</span>, <span class="string">&quot;aba&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;jkl&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line">    <span class="type">long</span> <span class="variable">count</span> <span class="operator">=</span> strings.stream().count();</span><br><span class="line">    out.println(count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>注意：文章中因排序部分用到外部比较器，需要导入外部jar包</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--apache集合操作工具包--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-collections4<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+
+    
+    <p>last update time 2023-08-05</p>
+    
+    
+        <a class="extend next post-next" href="/2023/01/29/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0_2/">next</a>
+    
+    </div>
+
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © 洪志鑫 2022 - 2023
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
